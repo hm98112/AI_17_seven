@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>파리 여행 경비 서비스</title> 
+    <style>
+        /* css 설정 */
+        /* 페이지 전체(body) 배경 설정 */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('wallpaperbetter.com_7680x4320.jpg');
+            background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
+            padding: 50px;
+        }
+
+        /* 글씨(h1) 설정 */
+        h1 {
+            color: #fffaf4;
+            font-size: 50px;
+            margin-bottom: 20px;
+            text-align: right; /* 오른쪽 정렬 */
+            margin-right: 400px;
+            text-shadow: 2px 2px 4px #5c59f8;
+        }
+
+        /* 글씨 + 흰색박스 전체 위치 설정 */
+        .service {
+            margin-top: 200px;
+        }
+
+        
+        /* 흰색 박스 설정 */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            width: 50%; /* 화면의 오른쪽 절반 차지 */
+            margin: 0 auto;
+            margin-right: 0;
+        }
+
+
+        /* 글씨(label) 설정 */
+        label {
+            color: #c71919;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        
+        /* 버튼 설정(사람 수, 날짜) */
+        input[type="number"],
+        input[type="date"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 98%;
+            margin-bottom: 10px;
+        }
+
+
+        /* 버튼 설정(선택) 설정 */
+        input[type="submit"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class= "service">
+        <h1>파리 여행 경비 서비스</h1>
+        <div class="form-container">
+            <form action="/predict" method="post">
+                
+                <!-- 여행 기본적인 정보 입력 -->
+                <label for="people">사람 수:</label>
+                <input type="number" id="people" name="people" min="0" required>
+
+                <!-- 출발 일 : 비행기 출발 날짜로 설정-->
+                <label for="departure">출발 일:</label>
+                <input type="date" id="departure" name="departure" min="2023-06-01" max="2023-08-31" required>
+
+                <!-- 도착 일 : 비행기 도착 날짜로 설정-->
+                <label for="arrival">도착 일:</label>
+                <input type="date" id="arrival" name="arrival" min="2023-06-01" max="2023-08-31" required>
+
+                <input type="submit" value="선택">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

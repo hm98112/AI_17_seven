@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>파리 여행 호텔 선택</title>
+    <style>
+        /* css 설정 */
+        /* 페이지 전체(body) 배경 설정 */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('hotel.jpg');
+            background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
+            padding: 100px;
+        }
+
+        /* 글씨(h1) 설정 */
+        h1 {
+            color: #fffaf4;
+            font-size: 50px;
+            margin-bottom: 20px;
+            text-align: left; /* 왼쪽 정렬 */
+            margin-left: 0px;
+            text-shadow: 2px 2px 4px #5c59f8;
+        }
+
+        /* 글씨 + 흰색박스 전체 위치 설정 */
+        .hotel-selection-container {
+            margin-top: 200px;
+        }
+
+        /* 흰색 박스 설정 */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            width: 25%; /* 화면의 오른쪽 절반 차지 */
+            margin: 0 auto;
+            margin-left: 0;
+        }
+
+        /* 글씨(label) 설정 */
+        label {
+            color: #c71919;
+            display: block;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+               
+
+        .date-container {
+            display: flex; /* 버튼들을 가로 방향으로 정렬 */
+            justify-content: space-between; /* 버튼들 사이의 공간을 동일하게 배분 */
+        }
+
+        .button-container {
+            display: flex; /* 버튼들을 가로 방향으로 정렬 */
+            justify-content: space-between; /* 버튼들 사이의 공간을 동일하게 배분 */
+        }
+
+        /* 버튼 설정(가격 확인, 이전 화면으로, 투어 선택하기) */
+        .button-container input[type="submit"],
+        .button-container input[type="button"],
+        .button-container input[type="next"] {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 30%; /* 버튼 너비 조정 */
+            margin-bottom: 10px;
+            background-color: #4caf50;
+            cursor: pointer;
+        }
+        
+        .button-container input[type="button"] {
+            background-color: #ff8484;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="hotel-selection-container">
+        <h1>호텔 선택</h1>
+        <div class="form-container">
+            <form action="/price-selection" method="post">
+                
+                <!-- 호텔 체크인/아웃 날짜 입력 -->
+                <div class="date-container">
+                    <label for="departure">체크 인:</label>
+                    <input type="date" id="departure" name="departure" min="2023-06-01" max="2023-08-31" required>
+                
+                    <label for="arrival">체크 아웃:</label>
+                    <input type="date" id="arrival" name="arrival" min="2023-06-01" max="2023-08-31" required>
+                </div>
+
+                <label for="airline">호텔 등급:</label>
+                <select id="airline" name="airline">
+                    <option value="1 등급">1등급</option>
+                    <option value="2 등급">2등급</option>
+                    <option value="그 외 등급">그 외</option>
+                    <!-- 다른 호텔 성급 옵션 추가 -->
+                </select>
+
+                <label for="seat-class">투숙객 평가:</label>
+                <select id="seat-class" name="seat-class">
+                    <option value="best">최고</option>
+                    <option value="very-good">매우 좋음</option>
+                    <option value="good">우수</option>
+                    <option value="soso">양호</option>
+                    <option value="etc">그 외</option>
+                    <!-- 다른 좌석 등급 옵션 추가 -->
+                </select>
+                
+                <!-- 선택한 호텔 가격에 인원 수, 숙박일 수를 곱한 값이 출력 -->
+                <div class="price-container">
+                    <label>선택한 호텔 가격:</label>
+                    <span id="selected-price">-</span>
+                </div>
+
+                
+                <div class="button-container">
+                    <!-- 가격확인 하기 버튼을 누르면 항공사와 옵션에 맞는 데이터가 오른쪽 화면에 출력되어야 함 -->
+                    <input type="submit" value="가격 확인">
+
+                    <!-- 현재 페이지의 옵션을 default로 돌리고 이전 화면으로 가야 함 -->
+                    <input type="button" value="이전 화면으로" onclick="window.location.href='/';">
+
+                    <!-- 가격을 업데이트 하고 다음 화면으로 이동 함 -->
+                    <input type="next" value="투어 선택하기">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
