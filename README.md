@@ -31,9 +31,9 @@
 
 - 사용 할 app : Flask<br>
 
-- 사용 할 서버 : aws - 다른 서버 조사(구자현)<br>
+- 사용 할 서버 : GCP database
 
-- 대시 보드 : metabase<br>
+- 대시 보드 : 태블로
 
 <h3>4. 1일차 목표</h3>
 
