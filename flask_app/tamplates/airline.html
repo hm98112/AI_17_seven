@@ -12,6 +12,7 @@
             background-repeat: no-repeat;
             padding: 100px;
         }
+        
 
         /* 글씨(h1) 설정 */
         h1 {
@@ -23,6 +24,15 @@
             text-shadow: 2px 2px 4px #5c59f8;
         }
 
+        h2 {
+            color:#fffaf4;
+            font-size: 40px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: left; /* 왼쪽 정렬 */
+            margin-left: 20px;
+            text-shadow: 2px 2px 4px #000000;
+        }
         /* 글씨 + 흰색박스 전체 위치 설정 */
         .flight-selection-container {
             margin-top: 200px;
@@ -78,6 +88,58 @@
     </style>
 </head>
 <body>
+    <div class='tableauPlaceholder' id='viz1684468463721' style="margin-bottom: 50px;">
+        <h2>한국행 항공권 가격</h2>
+        <noscript>
+            <a href='#'>
+                <img alt='한국행항공권 '
+                    src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649390150&#47;sheet12&#47;1_rss.png'
+                    style='border: none' />
+            </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='_16844649390150&#47;sheet12' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image'
+                value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649390150&#47;sheet12&#47;1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='ko-KR' />
+        </object>
+    </div>
+    <div class='tableauPlaceholder' id='viz1684470462903'>
+        <h2>파리행 항공권 가격</h2>
+        <noscript>
+            <a href='#'>
+                <img alt='파리행항공권 '
+                    src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649604150&#47;sheet13&#47;1_rss.png'
+                    style='border: none' />
+            </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='_16844649604150&#47;sheet13' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649604150&#47;sheet13&#47;1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='ko-KR' />
+        </object>
+    </div>
+
     <div class="flight-selection-container">
         <h1>항공사와 좌석 등급 선택</h1>
         <div class="form-container">
@@ -93,8 +155,10 @@
                 <label for="seat-class">좌석 등급:</label>
                 <select id="seat-class" name="seat-class">
                     <option value="Economy">이코노미</option>
+                    <option value="premium Economy">프리미엄 이코노미</option>
                     <option value="Business">비즈니스</option>
                     <option value="First Class">퍼스트 클래스</option>
+                    
                     <!-- 다른 좌석 등급 옵션 추가 -->
                 </select>
                 
@@ -117,5 +181,47 @@
             </form>
         </div>
     </div>
+    
 </body>
 </html>
+<script type='text/javascript'>
+    var divElement1 = document.getElementById('viz1684468463721');
+    var vizElement1 = divElement1.getElementsByTagName('object')[0];
+    if (divElement1.offsetWidth > 800) {
+        vizElement1.style.minWidth = '1700px';
+        vizElement1.style.maxWidth = '88%';
+        vizElement1.style.minHeight = '587px';
+        vizElement1.style.maxHeight = (divElement1.offsetWidth * 0.75) + 'px'; 
+    } else if (divElement1.offsetWidth > 500) {
+        vizElement1.style.minWidth = '420px';
+        vizElement1.style.maxWidth = '100%';
+        vizElement1.style.minHeight = '587px';
+        vizElement1.style.maxHeight = (divElement1.offsetWidth * 0.75) + 'px';
+    } else {
+        vizElement1.style.width = '100%';
+        vizElement1.style.height = '1177px';
+    }
+    var scriptElement1 = document.createElement('script');
+    scriptElement1.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement1.parentNode.insertBefore(scriptElement1, vizElement1);
+
+    var divElement2 = document.getElementById('viz1684470462903');
+    var vizElement2 = divElement2.getElementsByTagName('object')[0];
+    if (divElement2.offsetWidth > 800) {
+        vizElement2.style.minWidth = '1700px';
+        vizElement2.style.maxWidth = '88%';
+        vizElement2.style.minHeight = '587px';
+        vizElement2.style.maxHeight = (divElement2.offsetWidth * 0.75) + 'px';
+    } else if (divElement2.offsetWidth > 500) {
+        vizElement2.style.minWidth = '420px';
+        vizElement2.style.maxWidth = '100%';
+        vizElement2.style.minHeight = '587px';
+        vizElement2.style.maxHeight = (divElement2.offsetWidth * 0.75) + 'px';
+    } else {
+        vizElement2.style.width = '100%';
+        vizElement2.style.height = '1177px';
+    }
+    var scriptElement2 = document.createElement('script');
+    scriptElement2.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement2.parentNode.insertBefore(scriptElement2, vizElement2);
+</script>
