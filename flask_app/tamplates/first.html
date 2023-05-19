@@ -100,3 +100,12 @@
     </div>
 </body>
 </html>
+<!-- 도착일의 min값을 출발일 값으로 설정하는 코드-->>
+<script>
+    document.getElementById("departure").addEventListener("change", function() {
+        var departureDate = new Date(this.value);
+        var arrivalInput = document.getElementById("arrival");
+        var minDate = departureDate.toISOString().split("T")[0];
+        arrivalInput.min = minDate;
+    });
+</script>
