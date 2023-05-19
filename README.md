@@ -63,7 +63,7 @@
 driver.find_elements(By.CLASS_NAME, "poi-name margin-bottom-gap") # 데이터가 제대로 추출되지 않음
 driver.find_elements(By.CLASS_NAME, "card-right") # 데이터가 추출 됨
 ```
-- 구자현: 아마존 서버에서 구글 클라우드 플랫폼 서버를 사용하는 것으로 결정(서버 비용 무료)<br>
+- 구자현: 아마존 서버에서 구글 클라우드 플랫폼 서버를 사용하는 것으로 결정(서버 비용 한도 내 무료)<br>
 
 <h3>3. 기타 세부 결정 사항</h3>
 
