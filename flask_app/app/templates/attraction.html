@@ -7,7 +7,7 @@
         /* 페이지 전체(body) 배경 설정 */
         body {
             font-family: Arial, sans-serif;
-            background-image: url('attraction.png');
+            background-image: url('attraction.jpg');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
             padding: 100px;
@@ -34,7 +34,7 @@
         }
 
         /* 글씨 + 흰색박스 전체 위치 설정 */
-        .flight-selection-container {
+        .attraction-selection-container {
             margin-top: 200px;
         }
 
@@ -97,12 +97,15 @@
         }
 
         .button-container {
+            margin-top: 10px;
             display: flex; /* 버튼들을 가로 방향으로 정렬 */
             justify-content: space-between; /* 버튼들 사이의 공간을 동일하게 배분 */
         }
 
     </style>
 </head>
+
+
 <body>
     <div class='tableauPlaceholder' id='viz1684472621541' style='position: relative'>
         <h2>투어 가격</h2>
@@ -130,10 +133,10 @@
             <param name='language' value='ko-KR' />
         </object>
     </div>
-    <div class="flight-selection-container">
+    <div class="attraction-selection-container">
         <h1>투어 선택</h1>
         <div class="form-container">
-            <form action="/price-selection" method="post">
+            <form id="price-form" action="/attraction/price-selection" method="post">
                 <!-- 다른 카테고리 옵션 추가 -->
                 <label for="attraction-category">카테고리:</label>
                 <select id="attraction-category" name="attraction-category">
@@ -153,21 +156,26 @@
                 <!-- 선택한 투어 * 인원수 가격 출력 -->
                 <div class="price-container">
                     <label>선택한 투어 가격:</label>
-                    <span id="selected-price">-</span>
+                    <span id="selected-price">0</span>
                 </div>
 
-                
-                <div class="button-container">
-                    <!-- 선택한 옵션의 투어 필터링 -->
-                    <input type="submit" value="가격 확인">
-
-                    <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
-                    <input type="button" value="이전 화면으로" onclick="window.location.href='/';">
-                    
-                    <!-- 모든 가격 업데이트 후 마지막 화면으로 -->
-                    <input type="next" value="완료">
-                </div>
+                <input type="hidden" name="total-price" id="total-price">
             </form>
+            
+            <form id = 'complete-form' action = '/complete' method ='post'>
+                
+            </form>
+
+            <div class="button-container">
+                <!-- 선택한 옵션의 투어 필터링 -->
+                <input type="submit" form="price-form" value="가격 확인">
+
+                <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
+                <input type="button" value="이전 화면으로" onclick="window.location.href='/';">
+                
+                <!-- 모든 가격 업데이트 후 마지막 화으로 -->
+                <input type="submit" form="complete-form" value="완료">
+            </div>
         </div>
     </div>
     <h1>투어 목록</h1>
@@ -179,6 +187,7 @@
                 <th>이용객 평점</th>
                 <th>시간</th>
                 <th>1인당 가격</th>
+                <th>선택</th>
                 <!-- Add more columns as needed -->
             </tr>
         </thead>
@@ -190,6 +199,8 @@
                 <td>{{ row[2] }}</td>
                 <td>{{ row[3] }}</td>
                 <td>{{ row[4] }}</td>
+                <td><input type="checkbox" class="tour-checkbox" data-price="{{ row[4] }}"></td> <!-- 체크 박스 생성 -->
+
                 <!-- Add more columns as needed -->
             </tr>
             {% endfor %}
@@ -197,6 +208,9 @@
     </table>
 </body>
 </html>
+
+
+
 <script type='text/javascript'>
     var divElement = document.getElementById('viz1684472621541');
     var vizElement = divElement.getElementsByTagName('object')[0];
@@ -216,4 +230,29 @@
     } var scriptElement = document.createElement('script');
         scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
         vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    
+    function updateSelectedPrice() {
+        var checkboxes = document.getElementsByClassName('tour-checkbox');
+        var totalPrice = 0;
+
+        // 체크된 체크 박스의 가격을 합산
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                totalPrice += parseFloat(checkboxes[i].getAttribute('data-price'));
+            }
+        }
+
+        // 선택한 투어 가격 업데이트
+        var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(totalPrice);
+        document.getElementById('selected-price').innerText = formattedPrice;
+    }
+
+    // 체크 박스 변경 이벤트 리스너 등록
+    var tourCheckboxes = document.getElementsByClassName('tour-checkbox');
+    for (var i = 0; i < tourCheckboxes.length; i++) {
+        tourCheckboxes[i].addEventListener('change', updateSelectedPrice);
+    }
+    
+
+    
 </script>

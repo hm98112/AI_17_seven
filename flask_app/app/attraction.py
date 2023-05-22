@@ -4,6 +4,7 @@ import psycopg2
 bp = Blueprint('index', __name__, url_prefix='/')
 
 
+
 conn = psycopg2.connect(
     database="ai-17-seven",
     user="hm98112",
@@ -28,7 +29,7 @@ def index():
 
     return render_template('attraction.html', categories=categories, results = rows)
 
-@bp.route('price-selection', methods=['POST'])
+@bp.route('/attraction/price-selection', methods=['POST'])
 def price_selection():
     selected_category = request.form.get('attraction-category')
     att_order = request.form.get('order')
@@ -38,7 +39,7 @@ def price_selection():
     categories = cursor.fetchall()
 
     
-    cursor.execute("SELECT name, category, score, time, price FROM attraction WHERE category = %s", (selected_category,))
+    cursor.execute("SELECT name, category, score, time, price FROM attraction WHERE priceinfomation = 'per person' AND category = %s", (selected_category,))
     rows = cursor.fetchall()
 
     if att_order == "price":
@@ -52,3 +53,12 @@ def price_selection():
     cursor.close()
 
     return render_template('attraction.html', categories=categories, results=sorted_results)
+
+
+
+
+@bp.route('/complete', methods=['POST', 'GET'])
+def complete():
+    total_price = request.form.get('total-price', 0)  # 선택된 투어 가격 데이터 가져오기
+    
+    return render_template('complete.html', total_price=total_price)

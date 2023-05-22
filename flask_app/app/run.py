@@ -1,6 +1,7 @@
 from flask import Flask
 import attraction
 
+
 app = Flask(__name__)
 
 
