@@ -7,12 +7,21 @@
         /* 페이지 전체(body) 배경 설정 */
         body {
             font-family: Arial, sans-serif;
-            background-image: url('attraction.jpg');
+            background-image: url('attraction.png');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
             padding: 100px;
         }
 
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
         
         /* 글씨(h1) 설정 */
         h1 {
@@ -28,9 +37,11 @@
         .flight-selection-container {
             margin-top: 200px;
         }
+
+           
         h2 {
             color:#fffaf4;
-            font-size: 40px;
+            font-size: 50px;
             margin-top: 20px;
             margin-bottom: 20px;
             text-align: left; /* 왼쪽 정렬 */
@@ -94,7 +105,7 @@
 </head>
 <body>
     <div class='tableauPlaceholder' id='viz1684472621541' style='position: relative'>
-        <h2>어트랙션 가격</h2>
+        <h2>투어 가격</h2>
         <noscript>
             <a href='#'>
                 <img alt='관광지 '
@@ -124,22 +135,18 @@
         <div class="form-container">
             <form action="/price-selection" method="post">
                 <!-- 다른 카테고리 옵션 추가 -->
-                <label for="airline">카테고리:</label>
-                <select id="airline" name="airline">
-                    <option value="day-trip">하루 여행</option>
-                    <option value="guide_tour">가이드 여행</option>
-                    <option value="private_tour">개인 투어</option>
-                    <option value="entry_ticket">입장권</option>
-                    <option value="그 외 등급">그 외</option>
+                <label for="attraction-category">카테고리:</label>
+                <select id="attraction-category" name="attraction-category">
+                    {% for category in categories %}
+                        <option>{{ category[0] }}</option>
+                    {% endfor %}
                 </select>
 
-                <label for="seat-class">여행객 평가:</label>
-                <select id="seat-class" name="seat-class">
-                    <option value="4점대">4~5</option>
-                    <option value="3점대">3~4</option>
-                    <option value="2점대">2~3</option>
-                    <option value="1점대">1~2</option>
-                    <option value="etc">그 외</option>
+                <label for="order">정렬:</label>
+                <select id="order" name="order">
+                    <option value="price">가격</option>
+                    <option value="score">이용객 평점</option>
+                   
 
                 </select>
                 
@@ -163,6 +170,31 @@
             </form>
         </div>
     </div>
+    <h1>투어 목록</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>이름</th>
+                <th>카테고리</th>
+                <th>이용객 평점</th>
+                <th>시간</th>
+                <th>1인당 가격</th>
+                <!-- Add more columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <!-- Add more columns as needed -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
 <script type='text/javascript'>
@@ -180,7 +212,7 @@
         vizElement.style.maxHeight = (divElement.offsetWidth * 0.75) + 'px';
     } else {
         vizElement.style.width = '100%';
-        vizElement.style.height = '877px';
+        vizElement.style.height = '1177px';
     } var scriptElement = document.createElement('script');
         scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
         vizElement.parentNode.insertBefore(scriptElement, vizElement);
