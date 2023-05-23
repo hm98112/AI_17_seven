@@ -338,31 +338,37 @@
 
     
     function submitForm2() {
-        // 폼(form) 동적 생성
-        var form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', '/hotel');
-      
-        // attractionPrice 데이터 전송
         var airPrice = document.getElementById('air-price').value;
-        var input1 = document.createElement('input');
-        input1.setAttribute('type', 'hidden');
-        input1.setAttribute('name', 'air-price');
-        input1.setAttribute('value', airPrice);
-        form.appendChild(input1);
+  
+        if (airPrice == '') {
+          alert('상품이 선택되지 않았습니다.');
+        } else {
+            // 폼(form) 동적 생성
+            var form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', '/hotel');
         
+            // attractionPrice 데이터 전송
+            var airPrice = document.getElementById('air-price').value;
+            var input1 = document.createElement('input');
+            input1.setAttribute('type', 'hidden');
+            input1.setAttribute('name', 'air-price');
+            input1.setAttribute('value', airPrice);
+            form.appendChild(input1);
+            
 
-        // attractionPrice 데이터 전송
-        var count_people = document.getElementById('count_people').value;
-        var input2 = document.createElement('input');
-        input2.setAttribute('type', 'hidden');
-        input2.setAttribute('name', 'count_people');
-        input2.setAttribute('value', count_people);
-        form.appendChild(input2);
+            // attractionPrice 데이터 전송
+            var count_people = document.getElementById('count_people').value;
+            var input2 = document.createElement('input');
+            input2.setAttribute('type', 'hidden');
+            input2.setAttribute('name', 'count_people');
+            input2.setAttribute('value', count_people);
+            form.appendChild(input2);
 
-        // 폼(form)을 문서에 추가하고 제출
-        document.body.appendChild(form);
-        form.submit();
+            // 폼(form)을 문서에 추가하고 제출
+            document.body.appendChild(form);
+            form.submit();
+        }
     }
 
     function goBack() {

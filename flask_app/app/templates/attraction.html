@@ -254,46 +254,52 @@
     }
 
     function submitForm2() {
-        // 폼(form) 동적 생성
-        var form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', '/complete');
-      
-        // attractionPrice 데이터 전송
         var attractionPrice = document.getElementById('selected-price').innerText;
-        var inputAttractionPrice = document.createElement('input');
-        inputAttractionPrice.setAttribute('type', 'hidden');
-        inputAttractionPrice.setAttribute('name', 'attraction-price');
-        inputAttractionPrice.setAttribute('value', attractionPrice);
-        form.appendChild(inputAttractionPrice);
-      
-        // 값 설정
-        var hotelPrice = document.getElementById('hotel-price').value;
-        var input = document.createElement('input');
-        input.setAttribute('type', 'hidden');
-        input.setAttribute('name', 'hotel-price');
-        input.setAttribute('value', hotelPrice);
-        form.appendChild(input);
-             
-        // 값 설정
-        var airPrice = document.getElementById('air_price').value;
-        var input2 = document.createElement('input');
-        input2.setAttribute('type', 'hidden');
-        input2.setAttribute('name', 'air_price');
-        input2.setAttribute('value', airPrice);
-        form.appendChild(input2);
+  
+        if (attractionPrice == '0') {
+          alert('상품이 선택되지 않았습니다.');
+        } else {
+            // 폼(form) 동적 생성
+            var form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', '/complete');
         
-        // 값 설정
-        var count_people = document.getElementById('count_people').value;
-        var input3 = document.createElement('input');
-        input3.setAttribute('type', 'hidden');
-        input3.setAttribute('name', 'count_people');
-        input3.setAttribute('value', count_people);
-        form.appendChild(input3);
+            // attractionPrice 데이터 전송
+            var attractionPrice = document.getElementById('selected-price').innerText;
+            var inputAttractionPrice = document.createElement('input');
+            inputAttractionPrice.setAttribute('type', 'hidden');
+            inputAttractionPrice.setAttribute('name', 'attraction-price');
+            inputAttractionPrice.setAttribute('value', attractionPrice);
+            form.appendChild(inputAttractionPrice);
+        
+            // 값 설정
+            var hotelPrice = document.getElementById('hotel-price').value;
+            var input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', 'hotel-price');
+            input.setAttribute('value', hotelPrice);
+            form.appendChild(input);
+                
+            // 값 설정
+            var airPrice = document.getElementById('air_price').value;
+            var input2 = document.createElement('input');
+            input2.setAttribute('type', 'hidden');
+            input2.setAttribute('name', 'air_price');
+            input2.setAttribute('value', airPrice);
+            form.appendChild(input2);
+            
+            // 값 설정
+            var count_people = document.getElementById('count_people').value;
+            var input3 = document.createElement('input');
+            input3.setAttribute('type', 'hidden');
+            input3.setAttribute('name', 'count_people');
+            input3.setAttribute('value', count_people);
+            form.appendChild(input3);
 
-        // 폼(form)을 문서에 추가하고 제출
-        document.body.appendChild(form);
-        form.submit();
+            // 폼(form)을 문서에 추가하고 제출
+            document.body.appendChild(form);
+            form.submit();
+        }
     }
     function submitForm() {
         var attractionPrice = document.getElementById('selected-price').innerText;
