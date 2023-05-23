@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, current_app
 import psycopg2
+
 
 bp = Blueprint('hotel', __name__, url_prefix='/')
 
@@ -14,56 +15,65 @@ conn = psycopg2.connect(
 )
 
 
-
-@bp.route('/hotel', methods=['POST', 'GET'])
-def index():
-
-    air_price = request.form.get('air-price')
-    count_people = request.form.get('count_people')
-
+#가격 확인을 위한 선택리스트 요소 추출 함수
+def hot_select_list():
     cursor = conn.cursor()
 
+    #등급 리스트
     cursor.execute("SELECT DISTINCT grade FROM hotel678")
     grade = sorted(cursor.fetchall())
 
+    #날짜 리스트
     cursor.execute("SELECT DISTINCT checkin FROM hotel678")
     checkin = sorted(cursor.fetchall())
 
+    #평가 리스트
     cursor.execute("SELECT DISTINCT evaluation FROM hotel678")
     evaluation = sorted(cursor.fetchall())
     evaluation.pop(4)
     evaluation.pop()
+
+    cursor.close()  
+
+    return grade, checkin, evaluation
+
+#"/hotel" url 접근 함수
+@bp.route('/hotel', methods=['POST', 'GET'])
+def index():
     
+    #전역 변수에 이전 페이지(항공권)에서 넘어온 가격, 인원 저장
+    current_app.config['air_price'] = request.form.get('air-price')
+    current_app.config['count_people'] = request.form.get('count_people')
+
+    
+    cursor = conn.cursor()
+
+    #선택 리스트 요소 저장
+    grade, checkin, evaluation = hot_select_list()
+    
+    #호텔 초기 테이블 출력(10개에서 자름)
     cursor.execute("SELECT name, grade, score, evaluation, price, disprice, service, checkin FROM hotel678")
-    rows = cursor.fetchall()[:20]
-    
+    rows = cursor.fetchmany(10)
     cursor.close()
 
-    return render_template('hotel.html', grades=grade, checkins = checkin, evaluations = evaluation, results = rows[:10], air_price = air_price, count_people = count_people)
+    return render_template('hotel.html', grades=grade, checkins = checkin, evaluations = evaluation, results = rows)
 
+#"/hotel/price-selection" url 접근 함수 |호텔 가격 확인 기능 동작|
 @bp.route('/hotel/price-selection', methods=['POST'])
 def price_selection():
-    air_price = request.form.get('air-price', 0)
 
-
+    #필터에서 선택한 특성들 불러오기
     selected_checkin = request.form.get('hotel-checkins')
     selected_grade = request.form.get('hotel-grade')
     selected_evaluation = request.form.get('hotel-evaluation')
     hotel_order = request.form.get('order')
+
     cursor = conn.cursor()
 
-    cursor.execute("SELECT DISTINCT grade FROM hotel678")
-    grade = sorted(cursor.fetchall())
-
-    cursor.execute("SELECT DISTINCT checkin FROM hotel678")
-    checkin = sorted(cursor.fetchall())
-
-    cursor.execute("SELECT DISTINCT evaluation FROM hotel678")
-    evaluation = sorted(cursor.fetchall())
-    evaluation.pop(4)
-    evaluation.pop()
+    #선택 리스트 요소 저장
+    grade, checkin, evaluation = hot_select_list()
     
-
+    #필터링 쿼리 처리
     cursor.execute(f"SELECT name, grade, score, evaluation, price, disprice, service, checkin FROM hotel678 WHERE checkin = '{selected_checkin}' AND grade = {selected_grade} AND evaluation ='{selected_evaluation.lstrip().rstrip()} '")
     rows = cursor.fetchall()
 
@@ -71,13 +81,14 @@ def price_selection():
         # price를 기준으로 테이블 정렬
         sorted_results = sorted(rows, key=lambda x: x[4])
     elif hotel_order == "score":
+        # score 기준으로 테이블 정렬
         sorted_results = sorted(rows, key=lambda x: x[2], reverse=True)
     else:
         sorted_results = rows
 
     cursor.close()
 
-    return render_template('hotel.html', grades=grade, checkins = checkin, evaluations = evaluation, results = sorted_results, air_price=air_price)
+    return render_template('hotel.html', grades=grade, checkins = checkin, evaluations = evaluation, results = sorted_results)
 
 
 
