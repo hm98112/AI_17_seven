@@ -175,17 +175,19 @@
                     <span id="selected-price">0</span>
                 </div>
             </form>
-            <form id = 'attraction-form' action = '/attraction' method ='get'>
+            <form id = 'attraction-form'>
                 <div class="button-container">
                     <!-- 선택한 옵션의 투어 필터링 -->
                     <input type="hidden" name="hotel-price" id="hotel-price">
+                    <input type="hidden" name="air_price" id="air_price" value={{air_price}}>
+                    <input type="hidden" name="count_people" id="count_people" value={{count_people}}>
                     <input type="submit" form="price-form" value="가격 확인">
 
                     <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
                     <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
                     
                     <!-- 모든 가격 업데이트 후 마지막 화으로 -->
-                    <input type="submit" form="attraction-form" value="완료">
+                    <input type="button" onclick="submitForm()" value="완료">
                 </div>
             </form>
         </div>
@@ -268,6 +270,40 @@
         hotelCheckboxes[i].addEventListener('change', updateSelectedPrice);
     }
     
+    function submitForm() {
+        // 폼(form) 동적 생성
+        var form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', '/attraction');
+      
+        // 값 설정
+        var hotelPrice = document.getElementById('hotel-price').value;
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', 'hotel-price');
+        input.setAttribute('value', hotelPrice);
+        form.appendChild(input);
+        
+        // 값 설정
+        var airPrice = document.getElementById('air_price').value;
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', 'air_price');
+        input.setAttribute('value', airPrice);
+        form.appendChild(input);
+      
+        // 값 설정
+        var count_people = document.getElementById('count_people').value;
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', 'count_people');
+        input.setAttribute('value', count_people);
+        form.appendChild(input);
+
+        // 폼(form)을 문서에 추가하고 제출
+        document.body.appendChild(form);
+        form.submit();
+    }
 
     function goBack() {
         window.history.back();

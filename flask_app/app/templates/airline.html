@@ -145,6 +145,8 @@
         <h1>항공권 선택</h1>
         <div class="form-container">
             <form id ="price-form" action="/airline/price-selection" method="post">
+                <label for="departure-date">인원 수 :</label>
+                <input type="number" id="count_people" name="count_people" min="1" value="1" required>
                 <label for="departure-date">출발날짜:</label>
                 <select id="departure-date" name="departure-date">
                     {% for date in departure_dates|sort %}
@@ -186,8 +188,7 @@
                     <input type="hidden" name="air-price" id="air-price">
                     <input type="submit" form="price-form" value="항공권 조회">
                     <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
-                    <input type="submit" form="complete-form" value="완료">
-
+                    <input type="button" onclick="submitForm2()" value="완료">
                 </div>
             </form>    
         </div>
@@ -328,6 +329,40 @@
     var tourCheckboxes = document.getElementsByClassName('tour-checkbox');
     for (var i = 0; i < tourCheckboxes.length; i++) {
         tourCheckboxes[i].addEventListener('change', updateSelectedPrice);
+    }
+
+    function submitForm() {
+        var airPrice = document.getElementById('air-price').value;
+        alert(airPrice)
+    }
+
+    
+    function submitForm2() {
+        // 폼(form) 동적 생성
+        var form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', '/hotel');
+      
+        // attractionPrice 데이터 전송
+        var airPrice = document.getElementById('air-price').value;
+        var input1 = document.createElement('input');
+        input1.setAttribute('type', 'hidden');
+        input1.setAttribute('name', 'air-price');
+        input1.setAttribute('value', airPrice);
+        form.appendChild(input1);
+        
+
+        // attractionPrice 데이터 전송
+        var count_people = document.getElementById('count_people').value;
+        var input2 = document.createElement('input');
+        input2.setAttribute('type', 'hidden');
+        input2.setAttribute('name', 'count_people');
+        input2.setAttribute('value', count_people);
+        form.appendChild(input2);
+
+        // 폼(form)을 문서에 추가하고 제출
+        document.body.appendChild(form);
+        form.submit();
     }
 
     function goBack() {

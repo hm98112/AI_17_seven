@@ -63,12 +63,14 @@
             <h1>파리 여행 예약 영수증</h1>
         </div>
         <div class="receipt-item">
-            <span class="item-label">인원:</span>
-            <span class="item-value">[인원수]</span>
+            <span class="item-label">인원: </span>
+            <span class="item-value">{{ count_people }}</span>
         </div>
         <div class="receipt-item">
             <span class="item-label">항공권:</span>
-            <span class="item-value">[항공권 옵션]</span>
+            <span class="item-value">
+                <p>선택한 항공권 가격: {{ air_price }} </p>
+            </span>
         </div>
         <div class="receipt-item">
             <span class="item-label">호텔</span>
@@ -84,7 +86,7 @@
         </div>
         <div class="receipt-item">
             <span class="total-label">총 가격:</span>
-            <span class="total-value">[총 가격]</span>
+            <span class="total-value">{{ total_price }}</span>
         </div>
 
         <div class="ending-comment">

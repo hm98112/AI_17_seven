@@ -81,26 +81,15 @@
         <h1>파리 여행 경비 서비스</h1>
         <div class="form-container">
             <form action="/predict" method="post">
-                
-                <!-- 여행 기본적인 정보 입력 -->
-                <label for="people">사람 수:</label>
-                <input type="number" id="people" name="people" min="0" required>
-
-                <!-- 출발 일 : 비행기 출발 날짜로 설정-->
-                <label for="departure">출국일:</label>
-                <input type="date" id="departure" name="departure" min="2023-06-01" max="2023-08-31" required>
-
-                <!-- 도착 일 : 비행기 도착 날짜로 설정-->
-                <label for="arrival">귀국일:</label>
-                <input type="date" id="arrival" name="arrival" min="2023-06-01" max="2023-08-31" required>
-
-                <input type="submit" value="선택">
+                 <p>어서오세요 반갑습니다. 
+                    </p>
+                <input type="button" onclick="submitForm()" value="입장하기">
             </form>
         </div>
     </div>
 </body>
 </html>
-<!-- 도착일의 min값을 출발일 값으로 설정하는 코드-->>
+<!-- 도착일의 min값을 출발일 값으로 설정하는 코드-->
 <script>
     document.getElementById("departure").addEventListener("change", function() {
         var departureDate = new Date(this.value);
@@ -108,4 +97,8 @@
         var minDate = departureDate.toISOString().split("T")[0];
         arrivalInput.min = minDate;
     });
+
+    function submitForm() {
+        window.location.href = "/airline";
+    }
 </script>

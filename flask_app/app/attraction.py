@@ -17,6 +17,7 @@ conn = psycopg2.connect(
 
 @bp.route('/attraction', methods=['POST', 'GET'])
 def index():
+    
     cursor = conn.cursor()
 
     cursor.execute("SELECT DISTINCT category FROM attraction")
@@ -26,11 +27,14 @@ def index():
     rows = cursor.fetchall()
     
     cursor.close()
-    hotel_price = request.form.get('hote-price', 0)
+    
+    hotel_price = str(request.form.get('hotel-price'))
+    air_price = str(request.form.get('air_price'))
+    count_people = str(request.form.get('count_people'))
 
-    return render_template('attraction.html', categories=categories, results = rows[:10], hotel_price = hotel_price)
+    return render_template('attraction.html', categories=categories, results = rows[:10], hotel_price = hotel_price, air_price=air_price, count_people = count_people)
 
-@bp.route('/attraction/price-selection', methods=['POST'])
+@bp.route('/attraction/price-selection', methods=['POST','GET'])
 def price_selection():
     selected_category = request.form.get('attraction-category')
     att_order = request.form.get('order')
@@ -57,4 +61,6 @@ def price_selection():
     return render_template('attraction.html', categories=categories, results=sorted_results, hotel_price = hotel_price)
 
 
-
+@bp.route('/first', methods=['POST','GET'])
+def first():
+    return render_template('first.html')

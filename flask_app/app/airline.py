@@ -11,7 +11,7 @@ conn = psycopg2.connect(
     port="5432"
 )
 
-@bp.route('/airline')
+@bp.route('/airline', methods=['POST','GET'])
 def index():
     cursor = conn.cursor()
 
@@ -33,7 +33,7 @@ def index():
     cursor.execute("SELECT date, airline, dep, arr, deptime, arrtime, seat, time, day, price FROM corair")
     return_rows = cursor.fetchall()[:10]
 
-    cursor.close()
+    cursor.close()  
 
     return render_template('airline.html', departure_dates=departure_dates, departure_seats=departure_seats, return_dates=return_dates, return_seats=return_seats, results=rows, return_results=return_rows)
 

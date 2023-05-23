@@ -18,7 +18,8 @@ conn = psycopg2.connect(
 @bp.route('/hotel', methods=['POST', 'GET'])
 def index():
 
-    air_price = request.form.get('air-price', 0)
+    air_price = request.form.get('air-price')
+    count_people = request.form.get('count_people')
 
     cursor = conn.cursor()
 
@@ -38,7 +39,7 @@ def index():
     
     cursor.close()
 
-    return render_template('hotel.html', grades=grade, checkins = checkin, evaluations = evaluation, results = rows[:10], air_price=air_price)
+    return render_template('hotel.html', grades=grade, checkins = checkin, evaluations = evaluation, results = rows[:10], air_price = air_price, count_people = count_people)
 
 @bp.route('/hotel/price-selection', methods=['POST'])
 def price_selection():
