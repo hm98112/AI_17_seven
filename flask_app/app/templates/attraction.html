@@ -256,7 +256,7 @@
     function submitForm2() {
         var attractionPrice = document.getElementById('selected-price').innerText;
   
-        if (attractionPrice == '0') {
+        if (attractionPrice == '0' || attractionPrice == '₩0') {
           alert('상품이 선택되지 않았습니다.');
         } else {
             // 폼(form) 동적 생성
