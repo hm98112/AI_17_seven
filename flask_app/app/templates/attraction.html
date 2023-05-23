@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>파리 여행 투어 선택</title>
+    <title>파리 여행 어트랙션 선택</title>
     <style>
         /* css 설정 */
         /* 페이지 전체(body) 배경 설정 */
         body {
             font-family: Arial, sans-serif;
-            background-image: url('attraction.jpg');
+            background-image: url('/static/attraction.jpeg');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
             padding: 100px;
@@ -108,7 +108,7 @@
 
 <body>
     <div class='tableauPlaceholder' id='viz1684472621541' style='position: relative'>
-        <h2>투어 가격</h2>
+        <h2>어트랙션 가격</h2>
         <noscript>
             <a href='#'>
                 <img alt='관광지 '
@@ -134,7 +134,7 @@
         </object>
     </div>
     <div class="attraction-selection-container">
-        <h1>투어 선택</h1>
+        <h1>어트랙션 선택</h1>
         <div class="form-container">
             <form id="price-form" action="/attraction/price-selection" method="post">
                 <!-- 다른 카테고리 옵션 추가 -->
@@ -149,36 +149,33 @@
                 <select id="order" name="order">
                     <option value="price">가격</option>
                     <option value="score">이용객 평점</option>
-                   
-
                 </select>
                 
-                <!-- 선택한 투어 * 인원수 가격 출력 -->
+                <!-- 선택한 어트랙션 * 인원수 가격 출력 -->
                 <div class="price-container">
-                    <label>선택한 투어 가격:</label>
+                    <label>선택한 어트랙션 가격:</label>
                     <span id="selected-price">0</span>
                 </div>
-
-                <input type="hidden" name="total-price" id="total-price">
             </form>
             
             <form id = 'complete-form' action = '/complete' method ='post'>
-                
+                <div class="button-container">
+                    <!-- 선택한 옵션의 어트랙션 필터링 -->
+                    <input type="hidden" name="attraction-price" id="attraction-price">
+                    <input type="hidden" name="hotel-price" id="hotel-price" value = "{{ hotel_price }}">
+                        
+                    <input type="submit" form="price-form" value="가격 확인">
+
+                    <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
+                    <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
+                    
+                    <!-- 모든 가격 업데이트 후 마지막 화으로 -->
+                    <input type="submit" form="complete-form" value="완료">
+                </div>
             </form>
-
-            <div class="button-container">
-                <!-- 선택한 옵션의 투어 필터링 -->
-                <input type="submit" form="price-form" value="가격 확인">
-
-                <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
-                <input type="button" value="이전 화면으로" onclick="window.location.href='/';">
-                
-                <!-- 모든 가격 업데이트 후 마지막 화으로 -->
-                <input type="submit" form="complete-form" value="완료">
-            </div>
         </div>
     </div>
-    <h1>투어 목록</h1>
+    <h1>어트랙션 목록</h1>
     <table>
         <thead>
             <tr>
@@ -233,18 +230,19 @@
     
     function updateSelectedPrice() {
         var checkboxes = document.getElementsByClassName('tour-checkbox');
-        var totalPrice = 0;
+        var attractionPrice = 0;
 
         // 체크된 체크 박스의 가격을 합산
         for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
-                totalPrice += parseFloat(checkboxes[i].getAttribute('data-price'));
+                attractionPrice += parseFloat(checkboxes[i].getAttribute('data-price'));
             }
         }
 
-        // 선택한 투어 가격 업데이트
-        var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(totalPrice);
+        // 선택한 어트랙션 가격 업데이트
+        var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(attractionPrice);
         document.getElementById('selected-price').innerText = formattedPrice;
+        document.getElementById('attraction-price').value = formattedPrice;
     }
 
     // 체크 박스 변경 이벤트 리스너 등록
@@ -253,6 +251,8 @@
         tourCheckboxes[i].addEventListener('change', updateSelectedPrice);
     }
     
-
+    function goBack() {
+        window.history.back();
+    }
     
 </script>

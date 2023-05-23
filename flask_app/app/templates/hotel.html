@@ -7,7 +7,7 @@
         /* 페이지 전체(body) 배경 설정 */
         body {
             font-family: Arial, sans-serif;
-            background-image: url('hotel.jpg');
+            background-image: url('/static/hotel.jpeg');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
             padding: 100px;
@@ -90,6 +90,16 @@
             background-color: #ff8484;
         }
 
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
         
     </style>
 </head>
@@ -123,48 +133,95 @@
     <div class="hotel-selection-container">
         <h1>호텔 선택</h1>
         <div class="form-container">
-            <form action="/price-selection" method="post">
+            <form id="price-form" action="/hotel/price-selection" method="post">
                 
-                
-
-                <label for="airline">호텔 등급:</label>
-                <select id="airline" name="airline">
-                    <option value="1 등급">1등급</option>
-                    <option value="2 등급">2등급</option>
-                    <option value="그 외 등급">그 외</option>
-                    <!-- 다른 호텔 성급 옵션 추가 -->
+                <label for="hotel-checkins">체크인:</label>
+                <select id="hotel-checkins" name="hotel-checkins">
+                    {% for checkin in checkins %}
+                        <option>{{ checkin[0] }}</option>
+                    {% endfor %}
                 </select>
 
-                <label for="seat-class">투숙객 평가:</label>
-                <select id="seat-class" name="seat-class">
-                    <option value="best">최고</option>
-                    <option value="very-good">매우 좋음</option>
-                    <option value="good">우수</option>
-                    <option value="soso">양호</option>
-                    <option value="etc">그 외</option>
-                    <!-- 다른 좌석 등급 옵션 추가 -->
+                <label for="hotel-checkouts">체크아웃:</label>
+                <select id="hotel-checkouts" name="hotel-checkouts">
+                    {% for checkin in checkins %}
+                        <option>{{ checkin[0] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="hotel-grade">호텔 등급:</label>
+                <select id="hotel-grade" name="hotel-grade">
+                    {% for grade in grades %}
+                        <option>{{ grade[0] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="hotel-evaluation">투숙객 평가:</label>
+                <select id="hotel-evaluation" name="hotel-evaluation">
+                    {% for evaluation in evaluations %}
+                        <option>{{ evaluation[0] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="order">정렬:</label>
+                <select id="order" name="order">
+                    <option value="price">가격</option>
+                    <option value="score">이용객 평점</option>
                 </select>
                 
                 <!-- 선택한 호텔 가격에 인원 수, 숙박일 수를 곱한 값이 출력 -->
                 <div class="price-container">
                     <label>선택한 호텔 가격:</label>
-                    <span id="selected-price">-</span>
+                    <span id="selected-price">0</span>
                 </div>
-
-                
+            </form>
+            <form id = 'attraction-form' action = '/attraction' method ='get'>
                 <div class="button-container">
-                    <!-- 가격확인 하기 버튼을 누르면 항공사와 옵션에 맞는 데이터가 오른쪽 화면에 출력되어야 함 -->
-                    <input type="submit" value="가격 확인">
+                    <!-- 선택한 옵션의 투어 필터링 -->
+                    <input type="hidden" name="hotel-price" id="hotel-price">
+                    <input type="submit" form="price-form" value="가격 확인">
 
-                    <!-- 현재 페이지의 옵션을 default로 돌리고 이전 화면으로 가야 함 -->
-                    <input type="button" value="이전 화면으로" onclick="window.location.href='/';">
-
-                    <!-- 가격을 업데이트 하고 다음 화면으로 이동 함 -->
-                    <input type="next" value="투어 선택하기">
+                    <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
+                    <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
+                    
+                    <!-- 모든 가격 업데이트 후 마지막 화으로 -->
+                    <input type="submit" form="attraction-form" value="완료">
                 </div>
             </form>
         </div>
     </div>
+    <h1>호텔 목록</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>체크인</th>
+                <th>이름</th>
+                <th>등급</th>
+                <th>이용객 평점</th>
+                <th>평가</th>
+                <th>가격</th>
+                <th>할인 가격</th>
+                <th>이용 가능한 서비스</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                <td>{{ row[7] }}</td>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}</td>
+                <td><input type="checkbox" class="hotel-checkbox" data-price="{{ row[4] }}"></td> <!-- 체크 박스 생성 -->
+
+                <!-- Add more columns as needed -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
 <script type='text/javascript'>
@@ -186,4 +243,35 @@
     } var scriptElement = document.createElement('script');
         scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
         vizElement.parentNode.insertBefore(scriptElement, vizElement);
+
+
+    function updateSelectedPrice() {
+        var checkboxes = document.getElementsByClassName('hotel-checkbox');
+        var hotelPrice = 0;
+
+        // 체크된 체크 박스의 가격을 합산
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                hotelPrice += parseFloat(checkboxes[i].getAttribute('data-price'));
+            }
+        }
+
+        // 선택한 투어 가격 업데이트
+        var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(hotelPrice);
+        document.getElementById('selected-price').innerText = formattedPrice;
+        document.getElementById('hotel-price').value = formattedPrice;
+    }
+
+    // 체크 박스 변경 이벤트 리스너 등록
+    var hotelCheckboxes = document.getElementsByClassName('hotel-checkbox');
+    for (var i = 0; i < hotelCheckboxes.length; i++) {
+        hotelCheckboxes[i].addEventListener('change', updateSelectedPrice);
+    }
+    
+
+    function goBack() {
+        window.history.back();
+    }
+
+    
 </script>

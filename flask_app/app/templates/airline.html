@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>파리 여행 항공권 선택</title>
+    <title>여행 항공권 선택</title>
     <style>
         /* css 설정 */
         /* 페이지 전체(body) 배경 설정 */
         body {
             font-family: Arial, sans-serif;
-            background-image: url('airline.jpg');
+            background-image: url('/static/airline.jpeg');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
             padding: 100px;
@@ -85,6 +85,7 @@
             background-color: #ff8484;
         }
 
+
     </style>
 </head>
 <body>
@@ -141,49 +142,130 @@
     </div>
 
     <div class="flight-selection-container">
-        <h1>항공사와 좌석 등급 선택</h1>
+        <h1>항공권 선택</h1>
         <div class="form-container">
-            <form action="/price-selection" method="post">
-                <label for="airline">항공사:</label>
-                <select id="airline" name="airline">
-                    <option value="Korean Air">대한항공</option>
-                    <option value="Air France">에어프랑스</option>
-                    <option value="Emirates">에미레이트</option>
-                    <!-- 다른 항공사 옵션 추가 -->
+            <form id ="price-form" action="/airline/price-selection" method="post">
+                <label for="departure-date">출발날짜:</label>
+                <select id="departure-date" name="departure-date">
+                    {% for date in departure_dates|sort %}
+                    <option>{{ date[0] }}</option>
+                    {% endfor %}
+                </select>
+                <label for="departure-seat">좌석(파리행)</label>
+                <select id ="departure-seat" name="departure-seat">
+                    {% for seat in departure_seats|sort %}
+                    <option>{{ seat[0] }}</option>
+                    {% endfor %}
+                </select> 
+                <label for="return-date">복귀출발날짜:</label>
+                <select id="return-date" name="return-date">
+                    {% for date in return_dates|sort %}
+                    <option>{{ date[0] }}</option>
+                    {% endfor %}
+                </select>
+                <label for="return-seat">좌석(한국행)</label>
+                <select id ="return-seat" name="return-seat">
+                    {% for seat in return_seats|sort %}
+                    <option>{{ seat[0] }}</option>
+                    {% endfor %}
+                </select>
+                <label for="order">정렬:</label>
+                <select id="order" name="order">
+                    <option value="price">가격</option>
+                    <option value="airline">항공사</option>
                 </select>
 
-                <label for="seat-class">좌석 등급:</label>
-                <select id="seat-class" name="seat-class">
-                    <option value="Economy">이코노미</option>
-                    <option value="premium Economy">프리미엄 이코노미</option>
-                    <option value="Business">비즈니스</option>
-                    <option value="First Class">퍼스트 클래스</option>
-                    
-                    <!-- 다른 좌석 등급 옵션 추가 -->
-                </select>
-                
-                <!-- 선택한 항공권 가격에 인원 수를 곱한 값이 출력 -->
-                <div class="price-container">
+	<div class="price-container">
                     <label>선택한 항공권 가격:</label>
-                    <span id="selected-price">-</span>
-                </div>
+                    <span id="selected-price">0</span>
+             </div>
 
-                <div class="button-container">
-                    <!-- 가격확인 하기 버튼을 누르면 항공사와 옵션에 맞는 데이터가 오른쪽 화면에 출력되어야 함 -->
-                    <input type="submit" value="가격 확인">
-
-                    <!-- 모든 옵션을 default로 돌리고 처음화면으로 가야 함 -->
-                    <input type="button" value="처음 화면으로" onclick="window.location.href='/';">
-
-                    <!-- 가격을 업데이트 하고 다음 화면으로 이동 함 -->
-                    <input type="next" value="숙소 선택하기">
-                </div>
             </form>
+            <form id = 'complete-form' action = '/hotel' method ='post'>
+                <div class="button-container">
+                    <input type="hidden" name="air-price" id="air-price">
+                    <input type="submit" form="price-form" value="항공권 조회">
+                    <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
+                    <input type="submit" form="complete-form" value="완료">
+
+                </div>
+            </form>    
         </div>
     </div>
-    
+    <h1>항공권 목록 (파리행)</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>항공사</th>
+                    <th>출발지</th>
+                    <th>도착지</th>
+                    <th>출발시간</th>
+                    <th>도착시간</th>
+                    <th>좌석</th>
+                    <th>소요시간</th>
+                    <th>소요일자</th>
+                    <th>가격</th>
+                    <th>선택</th>
+                </tr>
+            </thead>-
+            <tbody>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
+                    <td>{{ row[8] }}</td>
+                    <td>{{ row[9] }}</td>
+                    <td><input type="checkbox" class="tour-checkbox" data-price="{{ row[9] }}"></td> 
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h1>항공권 목록 (복귀날짜)</h1>
+        <table>
+        <thead>
+            <tr>
+                <th>이름</th>
+                <th>항공사</th>
+                <th>출발지</th>
+                <th>도착지</th>
+                <th>출발시간</th>
+                <th>도착시간</th>
+                <th>좌석</th>
+                <th>소요시간</th>
+                <th>소요일자</th>
+                <th>가격</th>
+                <th>선택</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for return_row in return_results %}
+            <tr>
+                <td>{{ return_row[0] }}</td>
+                <td>{{ return_row[1] }}</td>
+                <td>{{ return_row[2] }}</td>
+                <td>{{ return_row[3] }}</td>
+                <td>{{ return_row[4] }}</td>
+                <td>{{ return_row[5] }}</td>
+                <td>{{ return_row[6] }}</td>
+                <td>{{ return_row[7] }}</td>
+                <td>{{ return_row[8] }}</td>
+                <td>{{ return_row[9] }}</td>
+                <td><input type="checkbox" class="tour-checkbox" data-price="{{ return_row[9] }}"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
 </body>
 </html>
+
 <script type='text/javascript'>
     var divElement1 = document.getElementById('viz1684468463721');
     var vizElement1 = divElement1.getElementsByTagName('object')[0];
@@ -224,4 +306,31 @@
     var scriptElement2 = document.createElement('script');
     scriptElement2.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
     vizElement2.parentNode.insertBefore(scriptElement2, vizElement2);
+
+    function updateSelectedPrice() {
+        var checkboxes = document.getElementsByClassName('tour-checkbox');
+        var airPrice = 0;
+
+    // 체크된 체크 박스의 가격을 합산
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                airPrice += parseFloat(checkboxes[i].getAttribute('data-price'));
+            }
+        }
+
+    // 선택한 투어 가격 업데이트
+        var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(airPrice);
+        document.getElementById('selected-price').innerText = formattedPrice;
+        document.getElementById('air-price').value = formattedPrice;
+    }
+
+    // 체크 박스 변경 이벤트 리스너 등록
+    var tourCheckboxes = document.getElementsByClassName('tour-checkbox');
+    for (var i = 0; i < tourCheckboxes.length; i++) {
+        tourCheckboxes[i].addEventListener('change', updateSelectedPrice);
+    }
+
+    function goBack() {
+        window.history.back();
+    }
 </script>

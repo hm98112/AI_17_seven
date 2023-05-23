@@ -15,7 +15,7 @@ conn = psycopg2.connect(
 
 
 
-@bp.route('/attraction')
+@bp.route('/attraction', methods=['POST', 'GET'])
 def index():
     cursor = conn.cursor()
 
@@ -26,8 +26,9 @@ def index():
     rows = cursor.fetchall()
     
     cursor.close()
+    hotel_price = request.form.get('hote-price', 0)
 
-    return render_template('attraction.html', categories=categories, results = rows)
+    return render_template('attraction.html', categories=categories, results = rows[:10], hotel_price = hotel_price)
 
 @bp.route('/attraction/price-selection', methods=['POST'])
 def price_selection():
@@ -38,7 +39,8 @@ def price_selection():
     cursor.execute("SELECT DISTINCT category FROM attraction")
     categories = cursor.fetchall()
 
-    
+    hotel_price = request.form.get('hote-price', 0)
+
     cursor.execute("SELECT name, category, score, time, price FROM attraction WHERE priceinfomation = 'per person' AND category = %s", (selected_category,))
     rows = cursor.fetchall()
 
@@ -52,13 +54,7 @@ def price_selection():
 
     cursor.close()
 
-    return render_template('attraction.html', categories=categories, results=sorted_results)
+    return render_template('attraction.html', categories=categories, results=sorted_results, hotel_price = hotel_price)
 
 
 
-
-@bp.route('/complete', methods=['POST', 'GET'])
-def complete():
-    total_price = request.form.get('total-price', 0)  # 선택된 투어 가격 데이터 가져오기
-    
-    return render_template('complete.html', total_price=total_price)

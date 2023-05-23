@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('complete.jpg');
+            background-image: url('/static/complete.jpeg');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
             padding: 100px;
@@ -71,13 +71,15 @@
             <span class="item-value">[항공권 옵션]</span>
         </div>
         <div class="receipt-item">
-            <span class="item-label">호텔:</span>
-            <span class="item-value">[호텔 옵션]</span>
+            <span class="item-label">호텔</span>
+            <span class="item-value">
+                <p>선택한 호텔 가격: {{ hotel_price }}</p>
+            </span>
         </div>
         <div class="receipt-item">
-            <span class="item-label">투어:</span>
+            <span class="item-label">어트랙션</span>
             <span class="item-value">
-                <p>선택한 투어 가격: {{ total_price }}</span></p>
+                <p>선택한 어트랙션 가격: {{ attraction_price }}</p>
             </span>
         </div>
         <div class="receipt-item">
