@@ -3,6 +3,7 @@ import attraction
 import complete
 import hotel
 import airline
+from flask import Flask, redirect
 
 app = Flask(__name__)
 
@@ -14,9 +15,12 @@ app.register_blueprint(airline.bp)
 
 
 
-    
 @app.route('/')
 def index():
+    return redirect('/first')
+
+@app.route('/first')
+def first():
     return 'bbb'
 
 
