@@ -10,18 +10,12 @@
             background-image: url('/static/attraction.jpeg');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
+            background-attachment: fixed;
+
             padding: 100px;
         }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
+        
         
         /* 글씨(h1) 설정 */
         h1 {
@@ -33,36 +27,57 @@
             text-shadow: 2px 2px 4px #5c59f8;
         }
 
-        /* 글씨 + 흰색박스 전체 위치 설정 */
-        .attraction-selection-container {
-            margin-top: 200px;
-        }
-
-           
+        
         h2 {
             color:#fffaf4;
-            font-size: 50px;
+            font-size: 60px;
             margin-top: 20px;
             margin-bottom: 20px;
-            text-align: left; /* 왼쪽 정렬 */
+            text-align: center; /* 왼쪽 정렬 */
             margin-left: 20px;
             text-shadow: 2px 2px 4px #000000;
         }
 
+        .attraction {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        /* 글씨 + 흰색박스 전체 위치 설정 */
+        .attraction-selection-container {
+            display: inline-block;
+            vertical-align: top;
+            width: 35%;
+        }
+
+           
+        
         /* 흰색 박스 설정 */
         .form-container {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 2px solid #ccc;
+            background-color: rgba(233, 221, 255, 0.8);
+            border: 2px solid rgba(233, 221, 255, 0.8);
             border-radius: 5px;
             padding: 20px;
-            width: 25%; /* 화면의 오른쪽 절반 차지 */
+            width: 88%; /* 화면의 오른쪽 절반 차지 */
             margin: 0 auto;
             margin-left: 0;
+            
+        }
+
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+            display: inline-block;
+            vertical-align: top;
+            margin-left: 30px;
+            background-color: rgba(233, 221, 255, 0.8);
+            border: 2px solid rgba(233, 221, 255, 0.8);
+            border-radius: 5px;
         }
 
         /* 글씨(label) 설정 */
         label {
-            color: #c71919;
+            color:#4c00ff;;
             display: block;
             margin-bottom: 10px;
             margin-top: 10px;
@@ -86,7 +101,7 @@
             text-align: center;
         }
 
-        .button-container input[type="button"] {
+        .button-container input[value="이전 화면으로"] {
             background-color: #ff8484;
         }
 
@@ -102,29 +117,48 @@
             justify-content: space-between; /* 버튼들 사이의 공간을 동일하게 배분 */
         }
 
+        
+        .table-head{
+            margin-left: 30px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            text-align: center;
+        }
+        
+        .tableauPlaceholder{
+            height: 2300px;
+        }
+
+        .price-container{
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 
 
 <body>
-    <div class='tableauPlaceholder' id='viz1684472621541' style='position: relative'>
-        <h2>어트랙션 가격</h2>
+    <div class='tableauPlaceholder' id='viz1684903391475' style='position: relative'>'
+        <h2>어트랙션 가격 대시보드</h2>
         <noscript>
-            <a href='#'>
-                <img alt='관광지 '
-                    src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649079910&#47;sheet11&#47;1_rss.png'
-                    style='border: none' />
+            <a href='#'><img
+                alt='관광지(최종) '
+                src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16848351932870&#47;sheet18&#47;1_rss.png'
+                style='border: none' />
             </a>
         </noscript>
         <object class='tableauViz' style='display:none;'>
             <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
             <param name='embed_code_version' value='3' />
             <param name='site_root' value='' />
-            <param name='name' value='_16844649079910&#47;sheet11' />
+            <param name='name' value='_16848351932870&#47;sheet18' />
             <param name='tabs' value='no' />
             <param name='toolbar' value='yes' />
             <param name='static_image'
-                value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649079910&#47;sheet11&#47;1.png' />
+                value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16848351932870&#47;sheet18&#47;1.png' />
             <param name='animate_transition' value='yes' />
             <param name='display_static_image' value='yes' />
             <param name='display_spinner' value='yes' />
@@ -133,102 +167,109 @@
             <param name='language' value='ko-KR' />
         </object>
     </div>
-    <div class="attraction-selection-container">
-        <h1>어트랙션 선택</h1>
-        <div class="form-container">
-            <form id="price-form" action="/attraction/price-selection" method="post">
-                <!-- 다른 카테고리 옵션 추가 -->
-                <label for="attraction-category">카테고리:</label>
-                <select id="attraction-category" name="attraction-category">
-                    {% for category in categories %}
-                        <option>{{ category[0] }}</option>
-                    {% endfor %}
-                </select>
+    <div class="attraction">
+        <div class="attraction-selection-container">
+            <h1>어트랙션 선택</h1>
+            <div class="form-container">
+                <form id="price-form" action="/attraction/price-selection" method="post">
+                    <!-- 다른 카테고리 옵션 추가 -->
+                    <label for="attraction-category">카테고리:</label>
+                    <select id="attraction-category" name="attraction-category">
+                        {% for category in categories %}
+                            <option>{{ category[0] }}</option>
+                        {% endfor %}
+                    </select>
 
-                <label for="order">정렬:</label>
-                <select id="order" name="order">
-                    <option value="price">가격</option>
-                    <option value="score">이용객 평점</option>
-                </select>
-                
-                <!-- 선택한 어트랙션 * 인원수 가격 출력 -->
-                <div class="price-container">
-                    <label>선택한 어트랙션 가격:</label>
-                    <span id="selected-price">0</span>
-                </div>
-            </form>
-            
-            <form id = 'complete-form' action = '/complete' method ='post'>
-                <div class="button-container">
-                    <!-- 선택한 옵션의 어트랙션 필터링 -->
-                    <input type="hidden" name="attraction-price" id="attraction-price">
-                    <input type="hidden" name="hotel-price" id="hotel-price" value = "{{ hotel_price }}">
-                    <input type="hidden" name="air_price" id="air_price" value = "{{ air_price }}">
-                    <input type="hidden" name="count_people" id="count_people" value = "{{ count_people }}">
-                        
-                    <input type="submit" form="price-form" value="가격 확인">
-
-                    <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
-                    <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
+                    <label for="order">정렬:</label>
+                    <select id="order" name="order">
+                        <option value="price">가격</option>
+                        <option value="score">이용객 평점</option>
+                    </select>
                     
-                    <!-- 모든 가격 업데이트 후 마지막 화으로 -->
-                    <input type="button" onclick="submitForm2()" value="완료">
-                </div>
-            </form>
+                    <!-- 선택한 어트랙션 * 인원수 가격 출력 -->
+                    <div class="price-container">
+                        <label>선택한 어트랙션 가격:</label>
+                        <span id="selected-price">0</span>
+                    </div>
+                </form>
+                
+                <form id = 'complete-form' action = '/complete' method ='post'>
+                    <div class="button-container">
+                        <!-- 선택한 옵션의 어트랙션 필터링 -->
+                        <input type="hidden" name="attraction-price" id="attraction-price">
+                        <input type="hidden" name="hotel-price" id="hotel-price" value = "{{ hotel_price }}">
+                        <input type="hidden" name="air_price" id="air_price" value = "{{ air_price }}">
+                        <input type="hidden" name="count_people" id="count_people" value = "{{ count_people }}">
+                            
+                        <input type="submit" form="price-form" value="가격 확인">
+
+                        <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
+                        <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
+                        
+                        <!-- 모든 가격 업데이트 후 마지막 화으로 -->
+                        <input type="button" onclick="submitForm2()" value="완료">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-container">
+            <h1>어트랙션 목록</h1>
+            <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>카테고리</th>
+                        <th>이용객 평점</th>
+                        <th>시간</th>
+                        <th>1인당 가격</th>
+                        <th>선택</th>
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4] }}</td>
+                        <td><input type="checkbox" class="tour-checkbox" data-price="{{ row[4] }}"></td> <!-- 체크 박스 생성 -->
+
+                        <!-- Add more columns as needed -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
         </div>
     </div>
-    <h1>어트랙션 목록</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>이름</th>
-                <th>카테고리</th>
-                <th>이용객 평점</th>
-                <th>시간</th>
-                <th>1인당 가격</th>
-                <th>선택</th>
-                <!-- Add more columns as needed -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in results %}
-            <tr>
-                <td>{{ row[0] }}</td>
-                <td>{{ row[1] }}</td>
-                <td>{{ row[2] }}</td>
-                <td>{{ row[3] }}</td>
-                <td>{{ row[4] }}</td>
-                <td><input type="checkbox" class="tour-checkbox" data-price="{{ row[4] }}"></td> <!-- 체크 박스 생성 -->
-
-                <!-- Add more columns as needed -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 </body>
 </html>
 
 
 
 <script type='text/javascript'>
-    var divElement = document.getElementById('viz1684472621541');
+    var divElement = document.getElementById('viz1684903391475');
     var vizElement = divElement.getElementsByTagName('object')[0];
     if (divElement.offsetWidth > 800) {
         vizElement.style.minWidth = '1700px';
-        vizElement.style.maxWidth = '88%';
+        vizElement.style.maxWidth = '100%';
         vizElement.style.minHeight = '587px';
-        vizElement.style.maxHeight = (divElement.offsetWidth * 0.75) + 'px';
+        vizElement.style.maxHeight = (divElement.offsetWidth * 0.75) + 'px'; 
     } else if (divElement.offsetWidth > 500) {
-        vizElement.style.minWidth = '420px';
+        vizElement.style.minWidth = '1700px';
         vizElement.style.maxWidth = '100%';
         vizElement.style.minHeight = '587px';
         vizElement.style.maxHeight = (divElement.offsetWidth * 0.75) + 'px';
     } else {
         vizElement.style.width = '100%';
-        vizElement.style.height = '1177px';
-    } var scriptElement = document.createElement('script');
-        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+        vizElement.style.height = '727px';
+    }
+    var scriptElement = document.createElement('script');
+    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement.parentNode.insertBefore(scriptElement, vizElement);
     
     function updateSelectedPrice() {
         var checkboxes = document.getElementsByClassName('tour-checkbox');
@@ -311,3 +352,11 @@
     }
     
 </script>
+
+
+
+
+
+
+
+    

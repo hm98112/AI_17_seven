@@ -10,20 +10,27 @@
             background-image: url('/static/complete.jpeg');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
+            background-attachment: fixed;
+
             padding: 100px;
         }
+
+        
 
         .receipt-container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ccc;
-            background-color: #f1e4e4;
+            background-color: rgba(233, 221, 255, 0.8);
         }
 
         .receipt-header {
             text-align: center;
             margin-bottom: 20px;
+            color: #fffaf4;
+            font-size: 20px;
+            text-shadow: 3px 2px 4px #5c59f8;
         }
 
         .receipt-item {
@@ -32,20 +39,24 @@
 
         .item-label {
             font-weight: bold;
+            font-size: 19px;
         }
 
         .item-value {
             margin-left: 10px;
+            font-size: 17px;
+            text-align: right;
         }
 
         .total-label {
             font-weight: bold;
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .total-value {
             margin-left: 10px;
             font-size: 18px;
+            text-align: right;
         }
 
 
@@ -53,8 +64,10 @@
             font-weight: bold;
             font-size: 25;
             text-align: center;
-            color: rgba(245, 114, 158, 0.849);
+            color: rgba(86, 0, 245, 0.849);
         }
+
+        
     </style>
 </head>
 <body>
@@ -63,30 +76,34 @@
             <h1>파리 여행 예약 영수증</h1>
         </div>
         <div class="receipt-item">
-            <span class="item-label">인원: </span>
-            <span class="item-value">{{ count_people }}</span>
+            <span class="item-label">인원</span>
+            <span class="item-value">
+                <p>{{ count_people }} 명</p>
+            </span>
         </div>
         <div class="receipt-item">
-            <span class="item-label">항공권:</span>
+            <span class="item-label">항공권</span>
             <span class="item-value">
-                <p>선택한 항공권 가격: {{ air_price }} </p>
+                <p>가격: {{ air_price }} </p>
             </span>
         </div>
         <div class="receipt-item">
             <span class="item-label">호텔</span>
             <span class="item-value">
-                <p>선택한 호텔 가격: {{ hotel_price }}</p>
+                <p>가격: {{ hotel_price }}</p>
             </span>
         </div>
         <div class="receipt-item">
             <span class="item-label">어트랙션</span>
             <span class="item-value">
-                <p>선택한 어트랙션 가격: {{ attraction_price }}</p>
+                <p>가격: {{ attraction_price }}</p>
             </span>
         </div>
         <div class="receipt-item">
             <span class="total-label">총 가격:</span>
-            <span class="total-value">{{ total_price }}</span>
+            <span class="total-value">
+                <p>{{ total_price }}</p>
+            </span>
         </div>
 
         <div class="ending-comment">

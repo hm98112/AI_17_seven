@@ -67,6 +67,4 @@ def price_selection():
     return render_template('attraction.html', categories=categories, results=sorted_results)
 
 
-@bp.route('/first', methods=['POST','GET'])
-def first():
-    return render_template('first.html')
+

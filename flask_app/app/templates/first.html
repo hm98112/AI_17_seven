@@ -10,16 +10,18 @@
             background-image: url('/static/first.jpeg');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
+            background-attachment: fixed;
+
             padding: 50px;
         }
 
         /* 글씨(h1) 설정 */
         h1 {
             color: #fffaf4;
-            font-size: 50px;
+            font-size: 60px;
             margin-bottom: 20px;
             text-align: right; /* 오른쪽 정렬 */
-            margin-right: 400px;
+            margin-right: 250px;
             text-shadow: 2px 2px 4px #5c59f8;
         }
 
@@ -31,11 +33,11 @@
         
         /* 흰색 박스 설정 */
         .form-container {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(233, 221, 255, 0.8);
             border: 2px solid #ccc;
             border-radius: 5px;
             padding: 20px;
-            width: 50%; /* 화면의 오른쪽 절반 차지 */
+            width: 45%; /* 화면의 오른쪽 절반 차지 */
             margin: 0 auto;
             margin-right: 0;
         }
@@ -43,27 +45,14 @@
 
         /* 글씨(label) 설정 */
         label {
-            color: #c71919;
+            color: #0f0688;
             display: block;
             margin-bottom: 10px;
         }
 
-        
-        /* 버튼 설정(사람 수, 날짜) */
-        input[type="number"],
-        input[type="date"] {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 98%;
-            margin-bottom: 10px;
-        }
-
-
         /* 버튼 설정(선택) 설정 */
-        input[type="submit"] {
-            padding: 10px;
+        input[type="button"] {
+            padding: 9px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -74,6 +63,18 @@
             border: none;
             cursor: pointer;
         }
+        .enter {
+            font-size: 30px;
+            text-align: center;
+            font-weight:bold
+
+        }
+        .info {
+            font-size: 17px;
+            text-align: center;
+            color:rgba(48, 78, 248, 0.8);
+            font-weight:bold;
+        }
     </style>
 </head>
 <body>
@@ -81,9 +82,12 @@
         <h1>파리 여행 경비 서비스</h1>
         <div class="form-container">
             <form action="/predict" method="post">
-                 <p>어서오세요 반갑습니다. 
-                    </p>
-                <input type="button" onclick="submitForm()" value="입장하기">
+                <label class="enter">
+                    <p>파리 여행 경비 서비스에 오신 것을 환영합니다!</p>
+                </label>
+                    <p class="info">저희 서비스에서는 항공권, 호텔, 주요 관광지(어트랙션)의 정보를 한 번에 제공하고 있습니다.<br>
+                        편리하게 완벽한 파리 여행 계획을 작성해보세요!</p>
+                <input type="button" onclick="submitForm()" value="작성하러 가기">
             </form>
         </div>
     </div>

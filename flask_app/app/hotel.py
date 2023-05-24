@@ -27,15 +27,9 @@ def hot_select_list():
     cursor.execute("SELECT DISTINCT checkin FROM hotel678")
     checkin = sorted(cursor.fetchall())
 
-    #평가 리스트
-    cursor.execute("SELECT DISTINCT evaluation FROM hotel678")
-    evaluation = sorted(cursor.fetchall())
-    evaluation.pop(4)
-    evaluation.pop()
-
     cursor.close()  
 
-    return grade, checkin, evaluation
+    return grade, checkin
 
 #"/hotel" url 접근 함수
 @bp.route('/hotel', methods=['POST', 'GET'])
@@ -49,14 +43,14 @@ def index():
     cursor = conn.cursor()
 
     #선택 리스트 요소 저장
-    grade, checkin, evaluation = hot_select_list()
+    grade, checkin = hot_select_list()
     
     #호텔 초기 테이블 출력(10개에서 자름)
     cursor.execute("SELECT name, grade, score, evaluation, price, disprice, service, checkin FROM hotel678")
     rows = cursor.fetchmany(10)
     cursor.close()
 
-    return render_template('hotel.html', grades=grade, checkins = checkin, evaluations = evaluation, results = rows)
+    return render_template('hotel.html', grades=grade, checkins = checkin, results = rows)
 
 #"/hotel/price-selection" url 접근 함수 |호텔 가격 확인 기능 동작|
 @bp.route('/hotel/price-selection', methods=['POST'])
@@ -65,16 +59,15 @@ def price_selection():
     #필터에서 선택한 특성들 불러오기
     selected_checkin = request.form.get('hotel-checkins')
     selected_grade = request.form.get('hotel-grade')
-    selected_evaluation = request.form.get('hotel-evaluation')
     hotel_order = request.form.get('order')
 
     cursor = conn.cursor()
 
     #선택 리스트 요소 저장
-    grade, checkin, evaluation = hot_select_list()
+    grade, checkin = hot_select_list()
     
     #필터링 쿼리 처리
-    cursor.execute(f"SELECT name, grade, score, evaluation, price, disprice, service, checkin FROM hotel678 WHERE checkin = '{selected_checkin}' AND grade = {selected_grade} AND evaluation ='{selected_evaluation.lstrip().rstrip()} '")
+    cursor.execute(f"SELECT name, grade, score, evaluation, price, disprice, service, checkin FROM hotel678 WHERE checkin = '{selected_checkin}' AND grade = {selected_grade}")
     rows = cursor.fetchall()
 
     if hotel_order == "price":
@@ -83,12 +76,14 @@ def price_selection():
     elif hotel_order == "score":
         # score 기준으로 테이블 정렬
         sorted_results = sorted(rows, key=lambda x: x[2], reverse=True)
+    elif hotel_order == "evaluation":
+        sorted_results = sorted(rows, key=lambda x: x[3])
     else:
         sorted_results = rows
 
     cursor.close()
 
-    return render_template('hotel.html', grades=grade, checkins = checkin, evaluations = evaluation, results = sorted_results)
+    return render_template('hotel.html', grades=grade, checkins = checkin, results = sorted_results)
 
 
 

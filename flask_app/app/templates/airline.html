@@ -10,6 +10,8 @@
             background-image: url('/static/airline.jpeg');
             background-size: cover; /* 이미지를 화면에 꽉 채우도록 조절 */
             background-repeat: no-repeat;
+            background-attachment: fixed;
+
             padding: 100px;
         }
         
@@ -26,32 +28,39 @@
 
         h2 {
             color:#fffaf4;
-            font-size: 40px;
+            font-size: 60px;
             margin-top: 20px;
             margin-bottom: 20px;
-            text-align: left; /* 왼쪽 정렬 */
+            text-align: center; /* 왼쪽 정렬 */
             margin-left: 20px;
             text-shadow: 2px 2px 4px #000000;
         }
+
+        .airline {
+            display: flex;
+        }
+
         /* 글씨 + 흰색박스 전체 위치 설정 */
         .flight-selection-container {
-            margin-top: 200px;
+            display: inline-block;
+            vertical-align: top;
+            width: 35%;
         }
 
         /* 흰색 박스 설정 */
         .form-container {
             background-color: rgba(255, 255, 255, 0.8);
-            border: 2px solid #ccc;
+            border: 2px solid rgba(233, 221, 255, 0.8);
             border-radius: 5px;
             padding: 20px;
-            width: 25%; /* 화면의 오른쪽 절반 차지 */
+            width: 88%; /* 화면의 오른쪽 절반 차지 */
             margin: 0 auto;
             margin-left: 0;
         }
 
         /* 글씨(label) 설정 */
         label {
-            color: #c71919;
+            color: #4c00ff;
             display: block;
             margin-bottom: 10px;
             margin-top: 10px;
@@ -81,32 +90,85 @@
             cursor: pointer;
         }
 
-        .button-container input[type="button"] {
+        .button-container input[value="이전 화면으로"] {
             background-color: #ff8484;
         }
 
+        .tableauPlaceholder{
+            height: 2000px;
+        }
 
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+            display: inline-block;
+            vertical-align: top;
+            margin-left: 30px;
+            background-color: rgba(233, 221, 255, 0.8);
+            border: 2px solid rgba(233, 221, 255, 0.8);
+            border-radius: 5px;
+        }
+        
+        
+        .table-head{
+            margin-left: 30px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            text-align: center;
+        }
+
+        .seat-select,
+        .date-select {
+            display: flex;
+            justify-content: space-between; /* 요소들을 양쪽 끝으로 정렬합니다. */
+            align-items: center;
+        }
+
+        .to-paris,
+        .to-incheon {
+            flex-grow: 1; /* 남은 공간을 동일하게 차지하도록 설정합니다. */
+            display: flex;
+            align-items: center;
+        }
+
+        .to-paris label,
+        .to-incheon label {
+            margin-right: 10px;
+        }
+        .date-select label {
+            margin-right: 10px; /* 라벨 사이의 간격을 조정합니다. */
+        }
+        
+
+        .price-container{
+            margin-bottom: 5px;
+        }
+        
     </style>
 </head>
 <body>
-    <div class='tableauPlaceholder' id='viz1684468463721' style="margin-bottom: 50px;">
-        <h2>한국행 항공권 가격</h2>
+    <div class='tableauPlaceholder' id='viz1684902857127' style='position: relative'>
+        <h2>파리행 항공권 대시보드</h2>
         <noscript>
             <a href='#'>
-                <img alt='한국행항공권 '
-                    src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649390150&#47;sheet12&#47;1_rss.png'
-                    style='border: none' />
+                <img alt='항공권 '
+            src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16849014678240&#47;sheet20&#47;1_rss.png'
+            style='border: none' />
             </a>
         </noscript>
         <object class='tableauViz' style='display:none;'>
             <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
             <param name='embed_code_version' value='3' />
             <param name='site_root' value='' />
-            <param name='name' value='_16844649390150&#47;sheet12' />
+            <param name='name' value='_16849014678240&#47;sheet20' />
             <param name='tabs' value='no' />
             <param name='toolbar' value='yes' />
             <param name='static_image'
-                value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649390150&#47;sheet12&#47;1.png' />
+                value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16849014678240&#47;sheet20&#47;1.png' />
             <param name='animate_transition' value='yes' />
             <param name='display_static_image' value='yes' />
             <param name='display_spinner' value='yes' />
@@ -115,85 +177,75 @@
             <param name='language' value='ko-KR' />
         </object>
     </div>
-    <div class='tableauPlaceholder' id='viz1684470462903'>
-        <h2>파리행 항공권 가격</h2>
-        <noscript>
-            <a href='#'>
-                <img alt='파리행항공권 '
-                    src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649604150&#47;sheet13&#47;1_rss.png'
-                    style='border: none' />
-            </a>
-        </noscript>
-        <object class='tableauViz' style='display:none;'>
-            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-            <param name='embed_code_version' value='3' />
-            <param name='site_root' value='' />
-            <param name='name' value='_16844649604150&#47;sheet13' />
-            <param name='tabs' value='no' />
-            <param name='toolbar' value='yes' />
-            <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16844649604150&#47;sheet13&#47;1.png' />
-            <param name='animate_transition' value='yes' />
-            <param name='display_static_image' value='yes' />
-            <param name='display_spinner' value='yes' />
-            <param name='display_overlay' value='yes' />
-            <param name='display_count' value='yes' />
-            <param name='language' value='ko-KR' />
-        </object>
-    </div>
+    <div class="airline">
+        <div class="flight-selection-container">
+            <h1>항공권 선택</h1>
+            <div class="form-container">
+                <form id ="price-form" action="/airline/price-selection" method="post">
+                    <div class="date-select">
+                        <div class="to-paris">
+                            <label for="departure-date">출국일:</label>
+                            <select id="departure-date" name="departure-date">
+                                {% for date in departure_dates|sort %}
+                                <option>{{ date[0] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="to-incheon">
+                            <label for="return-date">귀국 출발일:</label>
+                            <select id="return-date" name="return-date">
+                                {% for date in return_dates|sort %}
+                                <option>{{ date[0] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
 
-    <div class="flight-selection-container">
-        <h1>항공권 선택</h1>
-        <div class="form-container">
-            <form id ="price-form" action="/airline/price-selection" method="post">
-                <label for="departure-date">인원 수 :</label>
-                <input type="number" id="count_people" name="count_people" min="1" value="1" required>
-                <label for="departure-date">출발날짜:</label>
-                <select id="departure-date" name="departure-date">
-                    {% for date in departure_dates|sort %}
-                    <option>{{ date[0] }}</option>
-                    {% endfor %}
-                </select>
-                <label for="departure-seat">좌석(파리행)</label>
-                <select id ="departure-seat" name="departure-seat">
-                    {% for seat in departure_seats|sort %}
-                    <option>{{ seat[0] }}</option>
-                    {% endfor %}
-                </select> 
-                <label for="return-date">복귀출발날짜:</label>
-                <select id="return-date" name="return-date">
-                    {% for date in return_dates|sort %}
-                    <option>{{ date[0] }}</option>
-                    {% endfor %}
-                </select>
-                <label for="return-seat">좌석(한국행)</label>
-                <select id ="return-seat" name="return-seat">
-                    {% for seat in return_seats|sort %}
-                    <option>{{ seat[0] }}</option>
-                    {% endfor %}
-                </select>
-                <label for="order">정렬:</label>
-                <select id="order" name="order">
-                    <option value="price">가격</option>
-                    <option value="airline">항공사</option>
-                </select>
-
-	<div class="price-container">
-                    <label>선택한 항공권 가격:</label>
-                    <span id="selected-price">0</span>
-             </div>
-
-            </form>
-            <form id = 'complete-form' action = '/hotel' method ='post'>
-                <div class="button-container">
-                    <input type="hidden" name="air-price" id="air-price">
-                    <input type="submit" form="price-form" value="항공권 조회">
-                    <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
-                    <input type="button" onclick="submitForm2()" value="완료">
-                </div>
-            </form>    
+                    <div class="seat-select">
+                        <div class="to-paris">
+                            <label for="departure-seat">좌석(파리행)</label>
+                            <select id ="departure-seat" name="departure-seat">
+                                {% for seat in departure_seats|sort %}
+                                <option>{{ seat[0] }}</option>
+                                {% endfor %}
+                            </select> 
+                        </div>
+                        <div class="to-incheon">
+                        <label for="return-seat">좌석(한국행)</label>
+                            <select id ="return-seat" name="return-seat">
+                                {% for seat in return_seats|sort %}
+                                <option>{{ seat[0] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <label for="order">정렬:</label>
+                    <select id="order" name="order">
+                        <option value="price">가격</option>
+                        <option value="airline">항공사</option>
+                    </select>
+                    <label for="departure-date">인원 수 :</label>
+                    <input type="number" id="count_people" name="count_people" min="1" value="1" required>
+                <div class="price-container">
+                        <label>선택한 항공권 가격:</label>
+                        <span id="selected-price">0</span>
+                 </div>
+    
+                </form>
+                <form id = 'complete-form' action = '/hotel' method ='post'>
+                    <div class="button-container">
+                        <input type="hidden" name="air-price" id="air-price">
+                        <input type="submit" form="price-form" value="항공권 조회">
+                        <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
+                        <input type="button" onclick="submitForm2()" value="완료">
+                    </div>
+                </form>    
+            </div>
         </div>
     </div>
-    <h1>항공권 목록 (파리행)</h1>
+    <div class="table-container">
+        <h1>항공권 목록 (파리행)</h1>
+        <div class="table">
         <table>
             <thead>
                 <tr>
@@ -209,7 +261,7 @@
                     <th>가격</th>
                     <th>선택</th>
                 </tr>
-            </thead>-
+            </thead>
             <tbody>
                 {% for row in results %}
                 <tr>
@@ -228,85 +280,67 @@
                 {% endfor %}
             </tbody>
         </table>
-    </div>
-    <h1>항공권 목록 (복귀날짜)</h1>
+        </div>
+        <h1>항공권 목록 (복귀날짜)</h1>
+        <div class="table">
         <table>
-        <thead>
-            <tr>
-                <th>이름</th>
-                <th>항공사</th>
-                <th>출발지</th>
-                <th>도착지</th>
-                <th>출발시간</th>
-                <th>도착시간</th>
-                <th>좌석</th>
-                <th>소요시간</th>
-                <th>소요일자</th>
-                <th>가격</th>
-                <th>선택</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>항공사</th>
+                    <th>출발지</th>
+                    <th>도착지</th>
+                    <th>출발시간</th>
+                    <th>도착시간</th>
+                    <th>좌석</th>
+                    <th>소요시간</th>
+                    <th>소요일자</th>
+                    <th>가격</th>
+                    <th>선택</th>
+                </tr>
             </thead>
             <tbody>
-            {% for return_row in return_results %}
-            <tr>
-                <td>{{ return_row[0] }}</td>
-                <td>{{ return_row[1] }}</td>
-                <td>{{ return_row[2] }}</td>
-                <td>{{ return_row[3] }}</td>
-                <td>{{ return_row[4] }}</td>
-                <td>{{ return_row[5] }}</td>
-                <td>{{ return_row[6] }}</td>
-                <td>{{ return_row[7] }}</td>
-                <td>{{ return_row[8] }}</td>
-                <td>{{ return_row[9] }}</td>
-                <td><input type="checkbox" class="tour-checkbox" data-price="{{ return_row[9] }}"></td>
-            </tr>
-            {% endfor %}
-        </tbody>
+                {% for return_row in return_results %}
+                <tr>
+                    <td>{{ return_row[0] }}</td>
+                    <td>{{ return_row[1] }}</td>
+                    <td>{{ return_row[2] }}</td>
+                    <td>{{ return_row[3] }}</td>
+                    <td>{{ return_row[4] }}</td>
+                    <td>{{ return_row[5] }}</td>
+                    <td>{{ return_row[6] }}</td>
+                    <td>{{ return_row[7] }}</td>
+                    <td>{{ return_row[8] }}</td>
+                    <td>{{ return_row[9] }}</td>
+                    <td><input type="checkbox" class="tour-checkbox" data-price="{{ return_row[9] }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
+        </div>
+    </div>
 </body>
 </html>
 
 <script type='text/javascript'>
-    var divElement1 = document.getElementById('viz1684468463721');
-    var vizElement1 = divElement1.getElementsByTagName('object')[0];
-    if (divElement1.offsetWidth > 800) {
-        vizElement1.style.minWidth = '1700px';
-        vizElement1.style.maxWidth = '88%';
-        vizElement1.style.minHeight = '587px';
-        vizElement1.style.maxHeight = (divElement1.offsetWidth * 0.75) + 'px'; 
-    } else if (divElement1.offsetWidth > 500) {
-        vizElement1.style.minWidth = '420px';
-        vizElement1.style.maxWidth = '100%';
-        vizElement1.style.minHeight = '587px';
-        vizElement1.style.maxHeight = (divElement1.offsetWidth * 0.75) + 'px';
-    } else {
-        vizElement1.style.width = '100%';
-        vizElement1.style.height = '1177px';
+    var divElement = document.getElementById('viz1684902857127');
+    var vizElement = divElement.getElementsByTagName('object')[0];
+    if (divElement.offsetWidth > 800) {
+        vizElement.style.minWidth = '1700px';
+        vizElement.style.maxWidth = '100%';
+        vizElement.style.minHeight = '2000px';
+        vizElement.style.maxHeight = (divElement.offsetWidth * 0.75) + 'px';
+    } else if (divElement.offsetWidth > 500) {
+        vizElement.style.minWidth = '1700px';
+        vizElement.style.maxWidth = '100%';
+        vizElement.style.minHeight = '2000px';
+        vizElement.style.maxHeight = (divElement.offsetWidth * 0.75) + 'px';
+    } else { vizElement.style.width = '100%';
+        vizElement.style.height = '1627px';
     }
-    var scriptElement1 = document.createElement('script');
-    scriptElement1.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-    vizElement1.parentNode.insertBefore(scriptElement1, vizElement1);
-
-    var divElement2 = document.getElementById('viz1684470462903');
-    var vizElement2 = divElement2.getElementsByTagName('object')[0];
-    if (divElement2.offsetWidth > 800) {
-        vizElement2.style.minWidth = '1700px';
-        vizElement2.style.maxWidth = '88%';
-        vizElement2.style.minHeight = '587px';
-        vizElement2.style.maxHeight = (divElement2.offsetWidth * 0.75) + 'px';
-    } else if (divElement2.offsetWidth > 500) {
-        vizElement2.style.minWidth = '420px';
-        vizElement2.style.maxWidth = '100%';
-        vizElement2.style.minHeight = '587px';
-        vizElement2.style.maxHeight = (divElement2.offsetWidth * 0.75) + 'px';
-    } else {
-        vizElement2.style.width = '100%';
-        vizElement2.style.height = '1177px';
-    }
-    var scriptElement2 = document.createElement('script');
-    scriptElement2.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-    vizElement2.parentNode.insertBefore(scriptElement2, vizElement2);
+    var scriptElement = document.createElement('script');
+    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement.parentNode.insertBefore(scriptElement, vizElement);
 
     function updateSelectedPrice() {
         var checkboxes = document.getElementsByClassName('tour-checkbox');
@@ -375,3 +409,7 @@
         window.history.back();
     }
 </script>
+
+
+
+
