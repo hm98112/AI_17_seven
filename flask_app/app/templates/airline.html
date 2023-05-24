@@ -187,7 +187,7 @@
                             <label for="departure-date">출국일:</label>
                             <select id="departure-date" name="departure-date">
                                 {% for date in departure_dates|sort %}
-                                <option>{{ date[0] }}</option>
+                                <option value="{{ date[0] }}" {% if date[0] == selected_departure_date %}selected{% endif %}>{{ date[0] }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -195,7 +195,7 @@
                             <label for="return-date">귀국 출발일:</label>
                             <select id="return-date" name="return-date">
                                 {% for date in return_dates|sort %}
-                                <option>{{ date[0] }}</option>
+                                <option value="{{ date[0] }}" {% if date[0] == selected_return_date %}selected{% endif %}>{{ date[0] }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -206,7 +206,7 @@
                             <label for="departure-seat">좌석(파리행)</label>
                             <select id ="departure-seat" name="departure-seat">
                                 {% for seat in departure_seats|sort %}
-                                <option>{{ seat[0] }}</option>
+                                <option value="{{ seat[0] }}" {% if seat[0] == selected_departure_seat %}selected{% endif %}>{{ seat[0] }}</option>
                                 {% endfor %}
                             </select> 
                         </div>
@@ -214,18 +214,18 @@
                         <label for="return-seat">좌석(한국행)</label>
                             <select id ="return-seat" name="return-seat">
                                 {% for seat in return_seats|sort %}
-                                <option>{{ seat[0] }}</option>
+                                <option value="{{ seat[0] }}" {% if seat[0] == selected_return_seat %}selected{% endif %}>{{ seat[0] }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
                     <label for="order">정렬:</label>
                     <select id="order" name="order">
-                        <option value="price">가격</option>
-                        <option value="airline">항공사</option>
+                        <option value="price" {% if 'price' == att_order %}selected{% endif %} >가격</option>
+                        <option value="airline" {% if 'airline' == att_order %}selected{% endif %} >항공사</option>
                     </select>
                     <label for="departure-date">인원 수 :</label>
-                    <input type="number" id="count_people" name="count_people" min="1" value="1" onchange="updateSelectedPrice()" oninput="updateSelectedPrice()" required>
+                    <input type="number" id="count_people" name="count_people" min="1" value="1" required onchange="updateSelectedPrice()" oninput="updateSelectedPrice()">
                 <div class="price-container">
                         <label>선택한 항공권 가격:</label>
                         <span id="selected-price">0</span>
@@ -355,7 +355,6 @@
 
     // 선택한 투어 가격 업데이트
         var count_people = document.getElementById('count_people').value;
-
         var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(airPrice * count_people);
         document.getElementById('selected-price').innerText = formattedPrice;
         document.getElementById('air-price').value = formattedPrice;
@@ -366,12 +365,6 @@
     for (var i = 0; i < tourCheckboxes.length; i++) {
         tourCheckboxes[i].addEventListener('change', updateSelectedPrice);
     }
-
-    function submitForm() {
-        var airPrice = document.getElementById('air-price').value;
-        alert(airPrice)
-    }
-
     
     function submitForm2() {
         var airPrice = document.getElementById('air-price').value;

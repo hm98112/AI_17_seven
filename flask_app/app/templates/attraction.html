@@ -176,14 +176,14 @@
                     <label for="attraction-category">카테고리:</label>
                     <select id="attraction-category" name="attraction-category">
                         {% for category in categories %}
-                            <option>{{ category[0] }}</option>
+                        <option value="{{ category[0] }}" {% if category[0] == selected_category %}selected{% endif %}>{{ category[0] }}</option>
                         {% endfor %}
                     </select>
 
                     <label for="order">정렬:</label>
                     <select id="order" name="order">
-                        <option value="price">가격</option>
-                        <option value="score">이용객 평점</option>
+                        <option value="price" {% if 'price' == att_order %}selected{% endif %} >가격</option>
+                        <option value="score" {% if 'score' == att_order %}selected{% endif %} >이용객 평점</option>
                     </select>
                     
                     <!-- 선택한 어트랙션 * 인원수 가격 출력 -->
@@ -284,7 +284,8 @@
         }
 
         // 선택한 어트랙션 가격 업데이트
-        var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(attractionPrice);
+        var count_people = document.getElementById('count_people').value;
+        var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(attractionPrice * count_people);
         document.getElementById('selected-price').innerText = formattedPrice;
         document.getElementById('attraction-price').value = formattedPrice;
     }
@@ -323,6 +324,14 @@
             form.appendChild(input);
                 
             // 값 설정
+            var hotelTotalPrice = document.getElementById('hotelTotalPrice').textContent;
+            var input4 = document.createElement('input');
+            input4.setAttribute('type', 'hidden');
+            input4.setAttribute('name', 'hotelTotalPrice');
+            input4.setAttribute('value', hotelTotalPrice);
+            form.appendChild(input4);
+
+            // 값 설정
             var airPrice = document.getElementById('air_price').value;
             var input2 = document.createElement('input');
             input2.setAttribute('type', 'hidden');
@@ -342,10 +351,6 @@
             document.body.appendChild(form);
             form.submit();
         }
-    }
-    function submitForm() {
-        var attractionPrice = document.getElementById('selected-price').innerText;
-        alert(attractionPrice)
     }
     
     function goBack() {

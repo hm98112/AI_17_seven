@@ -196,7 +196,7 @@
                             <label for="hotel-checkins">체크인:</label>
                             <select id="hotel-checkins" name="hotel-checkins">
                                 {% for checkin in checkins %}
-                                    <option>{{ checkin[0] }}</option>
+                                <option value="{{ checkin[0] }}" {% if checkin[0] == selected_checkin %}selected{% endif %}>{{ checkin[0] }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -204,7 +204,7 @@
                             <label for="hotel-checkouts">체크아웃:</label>
                             <select id="hotel-checkouts" name="hotel-checkouts">
                                 {% for checkin in checkins %}
-                                    <option>{{ checkin[0] }}</option>
+                                <option value="{{ checkin[0] }}" {% if checkin[0] == selected_checkout %}selected{% endif %}>{{ checkin[0] }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -214,17 +214,17 @@
                             <label for="hotel-grade">호텔 등급:</label>
                             <select id="hotel-grade" name="hotel-grade">
                                 {% for grade in grades %}
-                                    <option>{{ grade[0] }}</option>
+                                <option value="{{ grade[0] }}" {% if grade[0] == selected_grade %}selected{% endif %}>{{ grade[0] }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="select-order">
                             <label for="order">정렬:</label>
                             <select id="order" name="order">
-                            <option value="price">가격</option>
-                            <option value="score">소비자 평점</option>
-                            <option value= "evaluation">호텔 평가</option>
-                    </select>
+                                <option value="price" {% if 'price' == hotel_order %}selected{% endif %} >가격</option>
+                                <option value="score" {% if 'score' == hotel_order %}selected{% endif %} >소비자 평점</option>
+                                <option value="evaluation" {% if 'evaluation' == hotel_order %}selected{% endif %} >호텔 평가</option>
+                            </select>
                         </div>
                     </div>
 
@@ -235,9 +235,11 @@
                         <label>선택한 호텔 가격</label>
                         <span id="selected-price">0</span>
                         <label>선택한 숙박 일 수</label>
-                        <span id="lb_days" name="lb_days">0</span>
+                        <span id="display_lb_days">{{ lb_days if lb_days else '0' }}</span>
+                        <input type="hidden" id="lb_days" name="lb_days" value="{{ lb_days if lb_days else '0' }}">
                         <label>인원 수</label>
-                        <span id="count_people" name="count_people">{{count_people}}</span>
+                        <span id="display-count-people">{{count_people}}</span>
+                        <input type="hidden" id="count_people" name="count_people" value="{{count_people}}">
                         <label>총 가격</label>
                         <span id="lb_totalHotelPrice" name="lb_totalHotelPrice">0</span>
                     </div>
@@ -303,10 +305,12 @@
     document.addEventListener('DOMContentLoaded', function () {
         var checkInSelect = document.getElementById('hotel-checkins');
         var checkOutSelect = document.getElementById('hotel-checkouts');
-        var daysLabel = document.getElementById('lb_days');
+        //display_lb_days
+        var display_lb_days = document.getElementById('display_lb_days');
+        var lb_days = document.getElementById('lb_days');
         var hotelPrice = document.getElementById('hotel-price').value;
-        var count_people = document.getElementById('count_people').innerText;
-        var totalHotelPriceLabel = document.getElementById('lb_totalHotelPrice');
+        var count_people = document.getElementById('count_people').value;
+        var lb_totalHotelPrice = document.getElementById('lb_totalHotelPrice');
 
         function calculateDays() {
             var checkInDate = new Date(checkInSelect.value);
@@ -314,16 +318,18 @@
 
             if(checkOutDate < checkInDate)
             {
-                daysLabel.textContent = '숙박 시작일과 종료일을 다시 확인해 주세요'
-                totalHotelPriceLabel.textContent = 0
+                lb_days.value = '숙박 시작일과 종료일을 다시 확인해 주세요22'
+                display_lb_days.textContent = '숙박 시작일과 종료일을 다시 확인해 주세요22'
+                lb_totalHotelPrice.textContent = 0
             }else{
                 var millisecondsPerDay = 24 * 60 * 60 * 1000;
                 var differenceInMilliseconds = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
                 var differenceInDays = Math.round(differenceInMilliseconds / millisecondsPerDay);
-                daysLabel.textContent = differenceInDays;
+                lb_days.value = differenceInDays;
+                display_lb_days.textContent = differenceInDays
                 var checkboxes = document.getElementsByClassName('hotel-checkbox');
                 var hotelPrice = 0;
-        
+                
                 // 체크된 체크 박스의 가격을 합산
                 for (var i = 0; i < checkboxes.length; i++) {
                     if (checkboxes[i].checked) {
@@ -331,7 +337,7 @@
                     }
                 }
                 var formattedTotalPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(hotelPrice * differenceInDays * count_people);
-                totalHotelPriceLabel.textContent = formattedTotalPrice
+                lb_totalHotelPrice.textContent = formattedTotalPrice
             }
         }
 
@@ -369,17 +375,15 @@
                 hotelPrice += parseFloat(checkboxes[i].getAttribute('data-price'));
             }
         }
-
         // 선택한 투어 가격 업데이트
         var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(hotelPrice);
-        var days = document.getElementById('lb_days').textContent;
-        var count_people = document.getElementById('count_people').textContent;
-
+        var days = document.getElementById('lb_days').value;
+        var count_people = document.getElementById('count_people').value;
         document.getElementById('selected-price').innerText = formattedPrice;
-        alert(count_people)
         var formattedTotalPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(hotelPrice * days * count_people);
-        document.getElementById('lb_totalHotelPrice').innerText = formattedTotalPrice;
+        document.getElementById('lb_totalHotelPrice').textContent = formattedTotalPrice;
         document.getElementById('hotel-price').value = formattedPrice;
+
     }
 
     // 체크 박스 변경 이벤트 리스너 등록
@@ -387,72 +391,49 @@
     for (var i = 0; i < hotelCheckboxes.length; i++) {
         hotelCheckboxes[i].addEventListener('change', updateSelectedPrice);
     }
-    
     function submitForm() {
         var selected_price = document.getElementById('selected-price').innerText;
-  
+    
         if (selected_price == '0' || selected_price == '₩0') {
-          alert('상품이 선택되지 않았습니다.');
+            alert('상품이 선택되지 않았습니다.');
         } else {
-            // 폼(form) 동적 생성
             var form = document.createElement('form');
             form.setAttribute('method', 'post');
             form.setAttribute('action', '/attraction');
-        
-            // 값 설정
-            var hotelPrice = document.getElementById('hotel-price').value;
-            var input = document.createElement('input');
-            input.setAttribute('type', 'hidden');
-            input.setAttribute('name', 'hotel-price');
-            input.setAttribute('value', hotelPrice);
-            form.appendChild(input);
-
-            // 값 설정
-            var hotelTotalPrice = document.getElementById('lb_totalHotelPrice').innerText;
-            var input = document.createElement('input');
-            input.setAttribute('type', 'hidden');
-            input.setAttribute('name', 'hotelTotalPrice');
-            input.setAttribute('value', hotelTotalPrice);
-            form.appendChild(input);
             
             // 값 설정
-            var airPrice = document.getElementById('air_price').value;
-            var input = document.createElement('input');
-            input.setAttribute('type', 'hidden');
-            input.setAttribute('name', 'air_price');
-            input.setAttribute('value', airPrice);
-            form.appendChild(input);
-        
-            // 값 설정
-            var count_people = document.getElementById('count_people').value;
-            var input = document.createElement('input');
-            input.setAttribute('type', 'hidden');
-            input.setAttribute('name', 'count_people');
-            input.setAttribute('value', count_people);
-            form.appendChild(input);
+            var hotelTotalPrice = document.getElementById('lb_totalHotelPrice').textContent;
+            var input4 = document.createElement('input');
+            input4.setAttribute('type', 'hidden');
+            input4.setAttribute('name', 'hotelTotalPrice');
+            input4.setAttribute('value', hotelTotalPrice);
+            form.appendChild(input4);
 
-            // 폼(form)을 문서에 추가하고 제출
+            var ids = ['hotel-price', 'air_price', 'count_people'];
+            var names = ['hotel-price', 'air_price', 'count_people'];
+    
+            for (var i = 0; i < ids.length; i++) {
+                var value = document.getElementById(ids[i]).value || document.getElementById(ids[i]).innerText;
+                form.appendChild(createInput(names[i], value));
+            }
+
             document.body.appendChild(form);
             form.submit();
         }
+    }
+    
+    function createInput(name, value) {
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', name);
+        input.setAttribute('value', value);
+    
+        return input;
     }
 
     function goBack() {
         window.history.back();
     }
-
-    // function submitFormAndScrollToCurrentPosition() {
-    // // 폼을 제출합니다.
-    // document.getElementById("price-form").submit();
-
-    // // 현재 위치의 Y 좌표를 가져옵니다.
-    // var currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-
-    // // 현재 위치로 스크롤합니다.
-    // window.scrollTo(0, currentPosition);
-    // }
-
-    
 </script>
 
 

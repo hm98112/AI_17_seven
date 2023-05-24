@@ -15,6 +15,7 @@ with app.app_context():
     current_app.config['air_price'] = 0
     current_app.config['hotel_price'] = 0
     current_app.config['attraction_price'] = 0
+    current_app.config['hotelTotalPrice'] = 0
  
 
 #각 페이지별 블루 프린트 불러오기

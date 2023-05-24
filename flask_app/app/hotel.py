@@ -55,12 +55,14 @@ def index():
 #"/hotel/price-selection" url 접근 함수 |호텔 가격 확인 기능 동작|
 @bp.route('/hotel/price-selection', methods=['POST'])
 def price_selection():
-
+    
     #필터에서 선택한 특성들 불러오기
     selected_checkin = request.form.get('hotel-checkins')
+    selected_checkout = request.form.get('hotel-checkouts')
+    lb_days = request.form.get('lb_days')
     selected_grade = request.form.get('hotel-grade')
     hotel_order = request.form.get('order')
-
+    count_people = request.form.get('count_people')
     cursor = conn.cursor()
 
     #선택 리스트 요소 저장
@@ -80,10 +82,19 @@ def price_selection():
         sorted_results = sorted(rows, key=lambda x: x[3])
     else:
         sorted_results = rows
-
-    cursor.close()
-
-    return render_template('hotel.html', grades=grade, checkins = checkin, results = sorted_results)
+    if selected_grade is not None:
+        selected_grade = int(selected_grade)
+    return render_template('hotel.html', 
+                           grades=grade, 
+                           lb_days = lb_days,
+                           selected_checkin = selected_checkin,
+                           selected_checkout = selected_checkout,
+                           checkins = checkin, 
+                           selected_grade = selected_grade,
+                           results = sorted_results,
+                           hotel_order = hotel_order,
+                           count_people = count_people
+                           )
 
 
 

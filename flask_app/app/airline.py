@@ -37,7 +37,12 @@ def air_select_list():
 @bp.route('/airline', methods=['POST','GET'])
 def index():
     cursor = conn.cursor()
-
+    
+    selected_departure_date = request.form.get('departure-date')
+    selected_return_date = request.form.get('return-date')
+    selected_departure_seat = request.form.get('departure-seat')
+    selected_return_seat = request.form.get('return-seat')
+    att_order = request.form.get('order')
     #선택 리스트 요소 저장
     departure_dates, departure_seats, return_dates, return_seats = air_select_list()
 
@@ -50,7 +55,14 @@ def index():
     return_rows = cursor.fetchmany(10)
     cursor.close()  
 
-    return render_template('airline.html', departure_dates=departure_dates, departure_seats=departure_seats, return_dates=return_dates, return_seats=return_seats, results=rows, return_results=return_rows)
+    return render_template('airline.html', 
+                           departure_dates=departure_dates, departure_seats=departure_seats, 
+                           return_dates=return_dates, return_seats=return_seats, 
+                           results=rows, return_results=return_rows,
+                           selected_departure_date = selected_departure_date, selected_return_date = selected_return_date,
+                           selected_departure_seat = selected_departure_seat, selected_return_seat = selected_return_seat,
+                           att_order = att_order                           
+                           )
 
 #"/airline/price-selection" url 접근 함수 |항공권 가격 확인 기능 동작|
 @bp.route('/airline/price-selection', methods=['POST'])
@@ -62,6 +74,7 @@ def price_selection():
     selected_departure_seat = request.form.get('departure-seat')
     selected_return_seat = request.form.get('return-seat')
     att_order = request.form.get('order')
+    print(att_order)
     
     cursor = conn.cursor()
 
@@ -92,5 +105,12 @@ def price_selection():
 
     cursor.close()
 
-    return render_template('airline.html', departure_dates=departure_dates, departure_seats=departure_seats, return_dates=return_dates, return_seats=return_seats, results=sorted_results, return_results=sorted_return_results)
+    return render_template('airline.html', 
+                           departure_dates=departure_dates, departure_seats=departure_seats, 
+                           return_dates=return_dates, return_seats=return_seats, 
+                           results=sorted_results, return_results=sorted_return_results,
+                           selected_departure_date = selected_departure_date, selected_return_date = selected_return_date,
+                           selected_departure_seat = selected_departure_seat, selected_return_seat = selected_return_seat,
+                           att_order= att_order
+                           )
 

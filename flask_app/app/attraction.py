@@ -25,7 +25,7 @@ def index():
     #전역 변수에 이전 페이지(호텔)에서 넘어온 가격 저장
     current_app.config['hotel_price'] = request.form.get('hotel-price')
     current_app.config['hotelTotalPrice'] = request.form.get('hotelTotalPrice')
-    
+    current_app.config['count_people'] = request.form.get('count_people')
     #카테고리 리스트
     cursor.execute("SELECT DISTINCT category FROM attraction")
     categories = cursor.fetchall()
@@ -35,7 +35,11 @@ def index():
     rows = cursor.fetchmany(10)
     cursor.close()
     
-    return render_template('attraction.html', categories=categories, results = rows[:10])
+    return render_template('attraction.html', 
+                           categories=categories, 
+                           results = rows[:10], 
+                           count_people = current_app.config['count_people']
+                           )
 
 #"/attraction/price-selection" url 접근 함수 |어트랙션 가격 확인 기능 동작|
 @bp.route('/attraction/price-selection', methods=['POST','GET'])
@@ -65,7 +69,7 @@ def price_selection():
 
     cursor.close()
 
-    return render_template('attraction.html', categories=categories, results=sorted_results)
+    return render_template('attraction.html', categories=categories, results=sorted_results, att_order=att_order,selected_category=selected_category)
 
 
 
