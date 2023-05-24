@@ -24,6 +24,7 @@ def index():
 
     #전역 변수에 이전 페이지(호텔)에서 넘어온 가격 저장
     current_app.config['hotel_price'] = request.form.get('hotel-price')
+    current_app.config['hotelTotalPrice'] = request.form.get('hotelTotalPrice')
     
     #카테고리 리스트
     cursor.execute("SELECT DISTINCT category FROM attraction")

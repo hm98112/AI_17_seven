@@ -234,6 +234,12 @@
                     <div class="price-container">
                         <label>선택한 호텔 가격</label>
                         <span id="selected-price">0</span>
+                        <label>선택한 숙박 일 수</label>
+                        <span id="lb_days" name="lb_days">0</span>
+                        <label>인원 수</label>
+                        <span id="count_people" name="count_people">{{count_people}}</span>
+                        <label>총 가격</label>
+                        <span id="lb_totalHotelPrice" name="lb_totalHotelPrice">0</span>
                     </div>
                 </form>
                 <form id = 'attraction-form'>
@@ -241,7 +247,6 @@
                         <!-- 선택한 옵션의 투어 필터링 -->
                         <input type="hidden" name="hotel-price" id="hotel-price">
                         <input type="hidden" name="air_price" id="air_price" value={{air_price}}>
-                        <input type="hidden" name="count_people" id="count_people" value={{count_people}}>
                         <input type="submit" value="가격 확인" form = "price-form">
 
                         <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
@@ -295,7 +300,45 @@
 </body>
 </html>
 <script type='text/javascript'>
-    
+    document.addEventListener('DOMContentLoaded', function () {
+        var checkInSelect = document.getElementById('hotel-checkins');
+        var checkOutSelect = document.getElementById('hotel-checkouts');
+        var daysLabel = document.getElementById('lb_days');
+        var hotelPrice = document.getElementById('hotel-price').value;
+        var count_people = document.getElementById('count_people').innerText;
+        var totalHotelPriceLabel = document.getElementById('lb_totalHotelPrice');
+
+        function calculateDays() {
+            var checkInDate = new Date(checkInSelect.value);
+            var checkOutDate = new Date(checkOutSelect.value);
+
+            if(checkOutDate < checkInDate)
+            {
+                daysLabel.textContent = '숙박 시작일과 종료일을 다시 확인해 주세요'
+                totalHotelPriceLabel.textContent = 0
+            }else{
+                var millisecondsPerDay = 24 * 60 * 60 * 1000;
+                var differenceInMilliseconds = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
+                var differenceInDays = Math.round(differenceInMilliseconds / millisecondsPerDay);
+                daysLabel.textContent = differenceInDays;
+                var checkboxes = document.getElementsByClassName('hotel-checkbox');
+                var hotelPrice = 0;
+        
+                // 체크된 체크 박스의 가격을 합산
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        hotelPrice += parseFloat(checkboxes[i].getAttribute('data-price'));
+                    }
+                }
+                var formattedTotalPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(hotelPrice * differenceInDays * count_people);
+                totalHotelPriceLabel.textContent = formattedTotalPrice
+            }
+        }
+
+        checkInSelect.addEventListener('change', calculateDays);
+        checkOutSelect.addEventListener('change', calculateDays);
+    });
+
     var divElement = document.getElementById('viz1684889576771');
     var vizElement = divElement.getElementsByTagName('object')[0];
     if (divElement.offsetWidth > 800) {
@@ -316,6 +359,7 @@
     vizElement.parentNode.insertBefore(scriptElement, vizElement);    
 
     function updateSelectedPrice() {
+        
         var checkboxes = document.getElementsByClassName('hotel-checkbox');
         var hotelPrice = 0;
 
@@ -328,7 +372,13 @@
 
         // 선택한 투어 가격 업데이트
         var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(hotelPrice);
+        var days = document.getElementById('lb_days').textContent;
+        var count_people = document.getElementById('count_people').textContent;
+
         document.getElementById('selected-price').innerText = formattedPrice;
+        alert(count_people)
+        var formattedTotalPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(hotelPrice * days * count_people);
+        document.getElementById('lb_totalHotelPrice').innerText = formattedTotalPrice;
         document.getElementById('hotel-price').value = formattedPrice;
     }
 
@@ -355,6 +405,14 @@
             input.setAttribute('type', 'hidden');
             input.setAttribute('name', 'hotel-price');
             input.setAttribute('value', hotelPrice);
+            form.appendChild(input);
+
+            // 값 설정
+            var hotelTotalPrice = document.getElementById('lb_totalHotelPrice').innerText;
+            var input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', 'hotelTotalPrice');
+            input.setAttribute('value', hotelTotalPrice);
             form.appendChild(input);
             
             // 값 설정

@@ -38,7 +38,7 @@ def index():
     #전역 변수에 이전 페이지(항공권)에서 넘어온 가격, 인원 저장
     current_app.config['air_price'] = request.form.get('air-price')
     current_app.config['count_people'] = request.form.get('count_people')
-
+    
     
     cursor = conn.cursor()
 
@@ -50,7 +50,7 @@ def index():
     rows = cursor.fetchmany(10)
     cursor.close()
 
-    return render_template('hotel.html', grades=grade, checkins = checkin, results = rows)
+    return render_template('hotel.html', grades=grade, checkins = checkin, results = rows, count_people = current_app.config['count_people'])
 
 #"/hotel/price-selection" url 접근 함수 |호텔 가격 확인 기능 동작|
 @bp.route('/hotel/price-selection', methods=['POST'])

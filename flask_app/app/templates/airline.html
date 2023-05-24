@@ -225,7 +225,7 @@
                         <option value="airline">항공사</option>
                     </select>
                     <label for="departure-date">인원 수 :</label>
-                    <input type="number" id="count_people" name="count_people" min="1" value="1" required>
+                    <input type="number" id="count_people" name="count_people" min="1" value="1" onchange="updateSelectedPrice()" oninput="updateSelectedPrice()" required>
                 <div class="price-container">
                         <label>선택한 항공권 가격:</label>
                         <span id="selected-price">0</span>
@@ -354,7 +354,9 @@
         }
 
     // 선택한 투어 가격 업데이트
-        var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(airPrice);
+        var count_people = document.getElementById('count_people').value;
+
+        var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(airPrice * count_people);
         document.getElementById('selected-price').innerText = formattedPrice;
         document.getElementById('air-price').value = formattedPrice;
     }
