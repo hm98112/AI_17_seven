@@ -230,7 +230,7 @@
                         <input type="hidden" name="count_people" id="count_people" value = "{{ count_people }}">
                         <input type="hidden" name="hotelTotalPrice" id="hotelTotalPrice" value = "{{ hotelTotalPrice }}">
                             
-                        <input type="submit" form="price-form" value="가격 확인">
+                        <input type="submit" form="price-form" onclick="submitForm1()" value="가격 확인">
 
                         <!-- 현재 화면에서 설정한 옵션 초기화 후 이전 화면으로 -->
                         <input type="button" class="btn_back" value="이전 화면으로" onclick="goBack()">
@@ -346,6 +346,59 @@
     var tourCheckboxes = document.getElementsByClassName('tour-checkbox');
     for (var i = 0; i < tourCheckboxes.length; i++) {
         tourCheckboxes[i].addEventListener('change', updateSelectedPrice);
+    }
+
+
+
+    function submitForm1() {
+        // 폼(form) 동적 생성
+        var form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', '/attraction/price-selection');
+    
+        // attractionPrice 데이터 전송
+        var attractionPrice = document.getElementById('selected-price').innerText;
+        var inputAttractionPrice = document.createElement('input');
+        inputAttractionPrice.setAttribute('type', 'hidden');
+        inputAttractionPrice.setAttribute('name', 'attraction-price');
+        inputAttractionPrice.setAttribute('value', attractionPrice);
+        form.appendChild(inputAttractionPrice);
+    
+        // 값 설정
+        var hotelPrice = document.getElementById('hotel-price').value;
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', 'hotel-price');
+        input.setAttribute('value', hotelPrice);
+        form.appendChild(input);
+            
+        // 값 설정
+        var hotelTotalPrice = document.getElementById('hotelTotalPrice').textContent;
+        var input4 = document.createElement('input');
+        input4.setAttribute('type', 'hidden');
+        input4.setAttribute('name', 'hotelTotalPrice');
+        input4.setAttribute('value', hotelTotalPrice);
+        form.appendChild(input4);
+
+        // 값 설정
+        var airPrice = document.getElementById('air_price').value;
+        var input2 = document.createElement('input');
+        input2.setAttribute('type', 'hidden');
+        input2.setAttribute('name', 'air_price');
+        input2.setAttribute('value', airPrice);
+        form.appendChild(input2);
+        
+        // 값 설정
+        var count_people = document.getElementById('count_people').value;
+        var input3 = document.createElement('input');
+        input3.setAttribute('type', 'hidden');
+        input3.setAttribute('name', 'count_people');
+        input3.setAttribute('value', count_people);
+        form.appendChild(input3);
+
+        // 폼(form)을 문서에 추가하고 제출
+        document.body.appendChild(form);
+        form.submit();
     }
 
     function submitForm2() {
