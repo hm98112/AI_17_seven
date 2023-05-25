@@ -74,7 +74,7 @@ def price_selection():
 
     if hotel_order == "price":
         # price를 기준으로 테이블 정렬
-        sorted_results = sorted(rows, key=lambda x: x[4])
+        sorted_results = sorted(rows, key=lambda x: x[5])
     elif hotel_order == "score":
         # score 기준으로 테이블 정렬
         sorted_results = sorted(rows, key=lambda x: x[2], reverse=True)

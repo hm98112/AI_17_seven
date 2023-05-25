@@ -11,11 +11,11 @@ def complete():
     
     #정수로 변환
     attraction_price2 = int( str(current_app.config['attraction_price']).replace('₩', '').replace(',', ''))
-    hotel_price2 = int( str(current_app.config['hotel_price']).replace('₩', '').replace(',', ''))
+    hotelTotalPrice = int( str(current_app.config['hotelTotalPrice']).replace('₩', '').replace(',', ''))
     air_price2 = int( str(current_app.config['air_price']).replace('₩', '').replace(',', ''))
     
     #전체 가격 계산
-    total_price = (attraction_price2 + hotel_price2 + air_price2) * int(current_app.config['count_people'])
+    total_price = (attraction_price2 + hotelTotalPrice + air_price2)
     total_price = "₩{:,}".format(total_price)
     
     return render_template('complete.html', 

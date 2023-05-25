@@ -88,8 +88,8 @@ def price_selection():
 
     if att_order == "price":
         sorted_results = sorted(rows, key=lambda x: x[9])
-    elif att_order == "seat":
-        sorted_results = sorted(rows, key=lambda x: x[6], reverse=True)
+    elif att_order == "airline":
+        sorted_results = sorted(rows, key=lambda x: x[1], reverse=True)
     else:
         sorted_results = rows
 
@@ -98,8 +98,8 @@ def price_selection():
 
     if att_order == "price":
         sorted_return_results = sorted(return_rows, key=lambda x: x[9])
-    elif att_order == "seat":
-        sorted_return_results = sorted(return_rows, key=lambda x: x[6], reverse=True)
+    elif att_order == "airline":
+        sorted_return_results = sorted(return_rows, key=lambda x: x[1], reverse=True)
     else:
         sorted_return_results = return_rows
 
