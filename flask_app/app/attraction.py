@@ -6,11 +6,7 @@ bp = Blueprint('index', __name__, url_prefix='/')
 
 #연결 설정
 conn = psycopg2.connect(
-    database="ai-17-seven",
-    user="hm98112",
-    password="123456!@#",
-    host="34.64.57.43",
-    port="5432"
+    
 )
 
 

@@ -5,11 +5,7 @@ bp = Blueprint('airline', __name__, url_prefix='/')
 
 
 conn = psycopg2.connect(
-    database="ai-17-seven",
-    user="khs03",
-    password="1234!",
-    host="34.64.57.43",
-    port="5432"
+    
 )
 
 #가격 확인을 위한 선택리스트 요소 추출 함수

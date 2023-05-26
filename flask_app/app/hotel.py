@@ -7,11 +7,7 @@ bp = Blueprint('hotel', __name__, url_prefix='/')
 
 
 conn = psycopg2.connect(
-    database="ai-17-seven",
-    user="hm98112",
-    password="123456!@#",
-    host="34.64.57.43",
-    port="5432"
+    
 )
 
 
